@@ -1,0 +1,54 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(35, 35, 35);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    height:50px;
+  }
+  
+  .navbar-links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar-link {
+    margin: 0 1rem;
+  }
+  
+  .navbar-link a {
+    color: rgb(194, 187, 187);
+    text-decoration: none;
+  }
+  
+  .dropdown {
+    position: relative;
+  }
+  
+  .dropdown-content {
+    position: absolute;
+    display: none;
+    background-color: #1d1b1b;
+    min-width: 160px;
+    height:40px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .navbar-link:hover {
+    background-color: rgb(16, 3, 3);
+    color: black;
+  }
+
+  .name {
+    margin-left: 600px; /* Push the label to the right */
+    color: rgb(194, 187, 187); /* Make the text white */
+  }
+  

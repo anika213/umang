@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css?family=Cinzel');
+@import url('https://fonts.googleapis.com/css?family=Abel');
+.image2{
+    width: 55vmin;
+    height:70vmin;
+}   
+
+.image3{
+    width: 55vmin;
+    height:45vmin;
+}   
+
+.button1{
+
+justify-content: center;
+height:40px;
+width: 80px;
+background-color: royalblue;
+border:10px;
+color:white;
+font-family: "Abel";
+border-color: azure;
+border-radius: 3px;
+}
+
+.button2{
+    justify-content: center;
+    height:40px;
+    
+    }
+
+p1{
+        color:rgb(236, 230, 230);
+        font-style: bold;
+        font-family: 'Abel';
+
+    }
+
+p{
+    font-family: "Abel";
+}
+
+.colortext{
+
+    color:rgb(103, 15, 15);
+    padding:0;
+    font-family: "Abel";
+}
+
+.blacktext{
+    color:black;
+}

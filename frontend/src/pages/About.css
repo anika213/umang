@@ -1,0 +1,61 @@
+.about1{
+        width: 40vmin;
+        height:40vmin;
+        margin-left:25px;
+
+}
+
+.about2{
+  width: 40vmin;
+  height:40vmin;
+  margin-left:10px;
+
+}
+
+.about3{
+  width: 40vmin;
+  height:30vmin;
+  margin-left:25px;
+
+}
+
+.about4{
+width: 40vmin;
+height:30vmin;
+margin-left:10px;
+
+}
+
+.about5{
+  width: 20vmin;
+  height:30vmin;
+  margin-left:10px;
+  
+  }
+
+
+  .about6{
+    width: 35vmin;
+    height:30vmin;
+    margin-left:10px;
+    
+    }
+
+
+.abouttext{
+
+  margin-left:10vmin;
+  font-size:15px;
+  margin-right:10vmin;
+}
+
+/* .row { 
+  display: flex;
+  justify-content: 30;
+}
+
+.column {
+  flex: 33.33%;
+  padding: 5px;
+  
+}*/

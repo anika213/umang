@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css?family=Abel');
+
+body{
+    margin: 0;
+    background-color: rgb(153, 119, 119);
+}
+h1{
+    font-size: 20px;
+    margin-left:0px;
+    font-family:"Abel";
+}
+
+
+form{
+    margin-left: 10px;
+
+    font-family:"Abel";
+    
+}
+
+
+.input{
+        width: 200px;
+        height: 45px;
+        background-color: rgb(255, 255, 255);
+        margin-left:7px;
+        border-width: 1px;
+        border-radius: 7px;
+
+}
+
+button{
+    background-color: rgb(1, 1, 119);
+    width: 100px;
+    height: 50px;
+    margin-left:20px;
+
+}
+
+img{
+    width:10px;
+    height: 20px;
+}
+
+
+
+
+
+body{
+    color:black;
+    margin: 0;
+}
+
+.nav u1{
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 4rem;
+}
+
+a{
+
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+
+}
+
+.loginhead{
+    font-family: 'Abel';
+    font-weight: "bolder";
+    font-size: 38px;
+    align-items: center;
+}
+
+Button{
+    margin-left:30px;
+    justify-content: center;
+    height:20px;
+    width: 60px;
+    background-color: rgb(106, 137, 232);
+    border:10px;
+    color:black;
+    font-family: "Abel";
+    border-radius: 3px;
+    }
+
+label{
+
+    font-family:"Abel";
+}
+
+.input{
+    font-family: 'Abel';
+
+}
+
+.everything{
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+}
+.disclaimer{
+
+    font-family:"Abel";
+    font-size: medium;
+    margin-left:10vmin;
+    margin-right:10vmin;
+}
+
+.redtext{
+    color:red;
+    font-size: medium;
+
+}
+.redtext1{
+    color:red;
+    font-size: medium;
+}
+
+
+.button9{
+    margin-left:30;
+        background-color: rgb(170, 202, 236);
+        width: 100px;
+        font-size:medium;
+        height: 50px;
+        margin-left:10px;
+    
+
+}
+.card-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 700px;
+    height:400px;
+    margin: 50px auto 20px; /* Added margin to the top */
+  }
+  
+  .everything {
+     /* Added margin to the top of the form */
+  }
+  
+  
+.swal2-confirm,
+.swal2-cancel {
+  height: 40px; /* Adjust the height to your desired value */
+  line-height: 40px; /* Center the text vertically within the button */
+  font-size: 18px; /* Adjust the font size as needed */
+}
+.info{
+    justify-content: center;
+    margin-left:10vw;
+    margin-right:10vw;
+    font-size:medium;
+
+    color:rgb(189, 188, 185);
+}
+
+.large-cancel-button {
+    font-size: 20px; /* adjust as needed */
+    padding: 15px 24px; /* adjust as needed */
+  }
+  .toast-container-middle {
+    top: 50% !important;
+    left: 50% !important;
+    /* transform: translate(-50%, -50%); */
+  }
+  

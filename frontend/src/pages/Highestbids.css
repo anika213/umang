@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css?family=Abel');
+@import url('https://fonts.googleapis.com/css?family=Cinzel');
+
+body{
+    margin: 0;
+    color:black;
+    background-color:rgb(233, 238, 243);
+}
+h1{
+    font-size: 45px;
+    margin-left:0px;
+    font-family: 'Cinzel';
+    color:rgb(14, 20, 1);
+}
+
+form{
+    margin-left: 30px;
+
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+}
+
+label{
+    padding-right: 25px;
+    padding-top: 50px;
+    margin-left: 10px;
+    height: 70px;
+    font-size: 20px;
+    
+    width: 50px;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+
+}
+
+input{
+        width: 200px;
+        height: 45px;
+        background-color: rgb(242, 243, 231);
+        margin-left:0px;
+
+}
+
+
+
+img{
+    width:10px;
+    height: 20px;
+}
+
+
+
+
+
+body{
+
+    margin: 0;
+}
+.nav{
+    background-color: rgb(241, 182, 184);
+    height: 80px;
+   font-family: 'Abel';
+   font-size: 40px;
+    color: rgb(0, 0, 0) ;
+    display: flex;
+    align-items: right;
+    justify-items: right;
+    gap: 2rem;
+
+}
+
+.nav u1{
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 4rem;
+}
+
+a{
+
+    color: white;
+    text-decoration: none;
+
+}
+
+p{
+
+    font-family: 'Abel';
+    font-size: 20px;
+}
+.bluetext{
+
+    color:rgb(17, 56, 129);
+}
+
+.bidstext{
+
+    font-size: 90;
+    font-weight: "bolder";
+}
+
+.boldtext{
+    font-size:24px;
+    color:rgb(52, 97, 1);
+}
+
+.mintext{
+    font-size:24px;
+    color:rgb(20, 3, 53);
+}
+
+.container{
+
+    margin-left:-40px;
+}

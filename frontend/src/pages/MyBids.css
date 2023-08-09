@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css?family=Abel');
+
+body{
+    margin: 0;
+}
+table {
+    margin: 0 auto; /* Center the table on the page */
+    border-collapse: collapse; /* Remove the default cell spacing */
+    font-family: 'Abel'; /* Set the font for the table */
+    width: 80%; /* Set the width of the table */
+  }
+  
+  th, td {
+    border: 1px solid black; /* Add a border to the cells */
+    padding: 8px; /* Add some padding to the cells */
+  }
+  
+  th {
+    background-color: lightgrey; /* Give the header cells a light grey background */
+    font-weight: bold; /* Make the header text bold */
+  }
+  

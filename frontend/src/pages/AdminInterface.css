@@ -1,0 +1,39 @@
+.heading{
+    font-size: 7vmin;
+    color:rgb(153, 152, 140);
+}
+
+.parent{
+    display:flex;
+    justify-content: space-around;
+    margin-left: 70px;
+    position:relative;
+}
+
+.parent2{
+    display:flex;
+    justify-content: space-around;
+    margin-left: 70px;
+    position:relative;
+}
+
+.buttondownload{
+    width:100px;
+    height:60px;
+    color:white;
+}
+.chart1{
+    display:flex;
+    flex: 0 0 50%; /* This will make the chart take up 45% of the available width */
+    margin:0;
+    padding: 0;
+    position:relative;
+
+}
+
+.chart2{
+flex: 0 0 50%; /* This will make the chart take up 45% of the available width */
+  margin: 0;
+  padding: 0;
+  position:relative;
+}
