@@ -22,6 +22,14 @@
     height:60px;
     color:white;
 }
+
+.buttonreset{
+    width:100px;
+    height:60px;
+    color:white;
+    margin-right: 100px;
+    background-color: brown;
+}
 .chart1{
     display:flex;
     flex: 0 0 50%; /* This will make the chart take up 45% of the available width */

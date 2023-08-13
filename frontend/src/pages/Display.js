@@ -70,12 +70,31 @@ async function bid(art_number){   //TODO: DISPLAY VALUES ONTO SCREEN
 
     var paintingnumber = "painting"+String(art_number);
     if(CheckCookie("name")==false){ 
-        swal("Please login and try again");
+        MySwal.fire({
+          title: <strong>Please login and try again!</strong>,
+          background: "white",
+          width: "35vmax",
+          confirmButtonText: 'OK',
+          buttonsStyling: false,
+
+        })
         return false;
     }
 
 
     let bidvalue = prompt('How much would you like to bid for this piece(in SGD)?');
+
+    if (!Number.isInteger(+bidvalue) || +bidvalue <= 0) {
+      MySwal.fire({
+        title: '<strong>Please enter a positive integer as your bid!</strong>',
+        background: "white",
+        width: "35vmax",
+        confirmButtonText: 'OK',
+        buttonsStyling: false,
+      });
+      return false;
+    } 
+    
     bidvalue = parseInt(bidvalue);
     var name = CheckCookie("name");
     await axios.put('http://localhost:8000/allbids/placebid',{paintingnumber,name,bidvalue})
@@ -116,6 +135,8 @@ async function bid(art_number){   //TODO: DISPLAY VALUES ONTO SCREEN
     });
    
 }
+
+
 
     
 

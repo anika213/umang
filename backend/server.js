@@ -7,13 +7,13 @@ const mongoose = require("mongoose");
 const axios= require("axios")
 const app = express();
 const router = express.Router()
+
+
 const uri = process.env.MONGO_URI
 const client = new MongoClient(uri);
 const database = client.db(process.env.DATABASE_NAME);
 const users = database.collection('users');
 const paintings = database.collection('paintings');
-var value = [];
-var artpiece;
 async function connection(){
     try {
         // Connect to the mongo cluster
@@ -25,6 +25,7 @@ async function connection(){
 }
 }
 connection().catch(console.error);
+
 
 
 getUserEmails = async () => {
@@ -158,13 +159,13 @@ app.listen(8000, () => {
     
 })
 
+
 let userLastBidTime = {};
 
 app.put("/allbids/placebid", async (req, res) => {
     const { paintingnumber, name, bidvalue } = req.body;
     console.log(paintingnumber, name, bidvalue);
     const data = await getHighestBid(paintingnumber);
-    //find the email of the highest bidder by using the name
     const highestBidder = data[0].highestBid.bidder;
     const highestBidderEmail = await users.find({"username":highestBidder}).toArray()
     console.log(highestBidderEmail[0].useremail)
@@ -177,14 +178,14 @@ app.put("/allbids/placebid", async (req, res) => {
 
     if (bidvalue > data[0].highestBid.bidvalue) {
         userLastBidTime[name] = currentTime;
-        axios.put('http://localhost:8000/allbids/bidplaced', 
-        { name, bidvalue, paintingnumber,highestBidderEmail }) 
+        axios.put('http://localhost:8000/allbids/bidplaced',  
+        { name, bidvalue, paintingnumber,highestBidderEmail })  
         .then((data) => {
             console.log("bidplaced"); 
             res.status(200).send(highestBidderEmail);
         })
 
-        axios.put('http://localhost:8000/allbids/mybids', 
+        axios.put('http://localhost:8000/allbids/mybids',  
         { name, bidvalue, paintingnumber })
         .then((data) => {
             console.log("mybids")

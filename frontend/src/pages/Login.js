@@ -104,12 +104,11 @@ function Login() {
           return password;
         },
         allowOutsideClick: () => !MySwal.isLoading(),
-        allowEscapeKey: false, // Prevent closing by pressing "Escape" key
+        allowEscapeKey: false, 
       });
 
       if (dismiss === 'cancel') {
-        // Handle the case where "Cancel" is pressed (do nothing or any desired action)
-        // For example, you can just return from the function or show a message to the user
+// if cancel presssed do nothin
         return false;
       }
 
@@ -188,7 +187,7 @@ function Login() {
           return password;
         },
         allowOutsideClick: () => !MySwal.isLoading(),
-        allowEscapeKey: false, // Prevent closing by pressing "Escape" key
+        allowEscapeKey: false, 
       });
   
       if (dismiss === 'cancel') {

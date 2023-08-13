@@ -54,7 +54,12 @@ function Admin()
           <Chart CSStype = "chart1" height={'400px'} width={'600px'} chartId={'63b7dc7e-2404-4591-82d5-c77500033064'} chartURL={'https://charts.mongodb.com/charts-project-0-mqzzv'} />
           <Chart CSStype = "chart2" height={'400px'} width={'600px'} chartId={'63b626f1-b222-4caf-86bf-6652df41849f'} chartURL={'https://charts.mongodb.com/charts-project-0-mqzzv'} />
         </div>
-            
+        <br></br>
+        <br></br>
+        <button className="buttonreset" >Reset auction</button>
+
+        <br></br>
+        <br></br>
             <br></br>
           
           
