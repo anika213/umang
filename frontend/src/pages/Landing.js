@@ -43,6 +43,7 @@ function setCookie(cname, cvalue, exdays) {
 // Get cookie - check if first visit or not
 function getCookie(cname) {
   let name = cname + "=";
+  // console.log(document.cookie)
   let cookiedoc = document.cookie.split(';');
   for(let i = 0; i < cookiedoc.length; i++) {
     let c = cookiedoc[i];
@@ -163,7 +164,7 @@ function Landing()
         <br></br>
         <br></br>
         <h>UMANG</h>
-        <h3>Fall 2022</h3>
+        <h3>Fall 2023</h3>
         
         
        <button class="register" onClick={routeChange}> Get Started </button> 

@@ -4,34 +4,61 @@ import Navbar_landing from '../component/Navbar_landing'
 import Chart from '../component/BiddersChart'
 import { saveAs } from 'file-saver';
 import axios from 'axios';
+import {admin} from './Login.js'
+import withReactContent from 'sweetalert2-react-content';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
+import { paintingsTitles } from './Highestbids';
+const MySwal = withReactContent(Swal);
 
+function Admin() {
+  const navigate = useNavigate();
+  console.log("ADMIN"+admin)
+  if (admin === false) {
+    MySwal.fire({
+      title: <strong>You are not authorized to see this page</strong>,
+      background: 'white',
+      width: '50vmin',
+      confirmButtonText: 'OK',
+      buttonsStyling: false,
+    }).then(() => {
+      navigate('/login', { replace: true }); // Redirect to "/display" when OK is clicked
+    });
 
-function Admin()
-
-{
-  function handleDownloadClick() {
-    console.log("in handle download click");
-    axios.get("http://localhost:8000/allbids/biddinginfo")   //get response from backend for bidding info
-      .then((response) => {
-        const { data } = response;
-        const [values, names, emails] = data;
-        const numberOfPaintings = values.length;
-        const paintingNumbers = Array.from({ length: numberOfPaintings }, (_, index) => index + 1);
-        const columnNames = ["Painting Number", "Names of Bidders", "Bidder Emails", "Highest Bids"];
-        const rows = paintingNumbers.map((paintingNumber, index) => [paintingNumber, names[index], emails[index], values[index]]);
-        const csvData = [columnNames, ...rows];
-        const csvContent = csvData.map(row => row.join(",")).join("\n"); // convert to csv format
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
-        saveAs(blob, 'biddingdata.csv');         // download file
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+    return null; // Return null since the content should not be displayed
   }
+
+  else{
+
+    function handleDownloadClick() {
+      console.log("in handle download click");
+      axios.get("http://localhost:8000/allbids/biddinginfo")
+        .then((response) => {
+          const { data } = response;
+          const [highestBidsData, highestBiddersNames, highestBiddersEmails, notes] = data;
+          console.log(notes)
+          
+          const paintingNumbers = Object.keys(highestBiddersNames); // get painting numbers from keys
+          const columnNames = ["Painting Title", "Names of Bidders", "Bidder Emails", "Highest Bids", "Notes for Artists"];
+          const rows = paintingNumbers.map((paintingNumber) => [
+            paintingsTitles[paintingNumber], // using titles from the titles dictionary
+            highestBiddersNames[paintingNumber], 
+            highestBiddersEmails[paintingNumber], 
+            highestBidsData[paintingNumber],
+            (notes[paintingNumber] && notes[paintingNumber].length > 0) ? notes[paintingNumber].join(", ") : ""
+          ]);
+          const csvData = [columnNames, ...rows];
+          const csvContent = csvData.map(row => row.join(",")).join("\n");
+          const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
+          saveAs(blob, 'biddingdata.csv');
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+    
+    
   
-  
-  
- 
 
     return (
 
@@ -40,9 +67,8 @@ function Admin()
             <Navbar_landing></Navbar_landing>
             <p class='heading'>Welcome Organiser!</p>
 
-            <button className="buttondownload" onClick={handleDownloadClick} >
-          Download Data
-        </button>
+            <button className="buttondownload" onClick={handleDownloadClick} > Download Data </button>
+
             <p>The Charts below are for you to visualise the current progress of the bidding</p>
             <br></br>
         <div class='parent'>
@@ -56,7 +82,7 @@ function Admin()
         </div>
         <br></br>
         <br></br>
-        <button className="buttonreset" >Reset auction</button>
+        {/* <button className="buttonreset" >Reset auction</button> */}
 
         <br></br>
         <br></br>
@@ -70,7 +96,7 @@ function Admin()
 
     )
   
-
+    }
 
     
 }

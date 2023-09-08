@@ -14,13 +14,12 @@ import { Link } from "react-router-dom";
 import { SidebarData } from "./SidebarDataLogin";
 
 // STYLES
-import "./Navbar_landing.css";
+import "./Navbar.css";
 
 export default function Navbar() {
   const [sidebar, setSidebar] = useState(false);
 
   const showSidebar = () => setSidebar(!sidebar);
-
   return (
     <>
       <IconContext.Provider value={{ color: "#FFF" }}>
@@ -43,7 +42,7 @@ export default function Navbar() {
                 <li key={index} className={item.cName}>
                   <Link to={item.path}>
                     {item.icon}
-                    <span>{item.title}</span>
+                    <span> {item.title}</span>
                   </Link>
                 </li>
               );

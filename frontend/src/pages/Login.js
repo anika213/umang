@@ -10,14 +10,15 @@ import withReactContent from 'sweetalert2-react-content';
 var password = '';
 var userdata = [];
 var bids = [];
+var admin = false;
 
 const MySwal = withReactContent(Swal);
 
 function setCookie(cname, cvalue, exdays) {
   const d = new Date();
-  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000); // set expiry date for the cookie
   let expires = 'expires=' + d.toUTCString();
-  document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
+  document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/'; // creat cookie with name, value, expiry date and path to website
 }
 
 function Login() {
@@ -55,38 +56,25 @@ function Login() {
     var chars = '0123456789';
     var passwordLength = 5;
     password = '';
-    for (var i = 0; i < passwordLength; i++) {
+    for (var i = 0; i < passwordLength; i++) { // get random 5 digit password
       var randomNumber = Math.floor(Math.random() * chars.length);
       password += chars.substring(randomNumber, randomNumber + 1);
     }
-    console.log('actual password:' + password);
+
     var params = {
       name: name,
       email: email,
       userpass: password,
     };
     console.log('real' + password);
-
-    if (name !== 'admin' || email !== 'easthsi-india@gapps.uwcsea.edu.sg') {
-      // emailjs.send("service_adnzlti","template_i1if82w",params,"e7AJH9FfOWzIXQQJm");
-    }
+     emailjs.send("service_adnzlti","template_i1if82w",params,"e7AJH9FfOWzIXQQJm");
   }
-
+    // console.log('actual password:' + password);
   async function ValidateEmail(emailcheck, name) {
     console.log('in validate email');
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailcheck)) {
       userpassword = '';
       console.log('name' + name);
-      if (name === '') {
-        MySwal.fire({
-          title: <strong>Please enter your name!</strong>,
-          background: 'white',
-          width: '35vmax',
-          confirmButtonText: 'OK',
-          buttonsStyling: false,
-        });
-        return false;
-      }
       SendEmail();
       const { value, dismiss } = await MySwal.fire({
         title: <strong>We've just sent you a verification email with a password. Please enter your password here to proceed!</strong>,
@@ -118,8 +106,8 @@ function Login() {
       if (await Verifyemail(userpassword) === true) {
         console.log('email verified');
         console.log('name' + name);
-
         return true;
+
       } else {
         console.log('not verified');
         return false;
@@ -140,7 +128,7 @@ function Login() {
   async function CheckRepeat() {
     setCookie('email', email, 365);
     setCookie('username', name, 365);
-    console.log('in checkrepeat');
+    // console.log('in checkrepeat');
     await axios.get('http://localhost:8000/users').then(function (response) {
       console.log(response.data);
       userdata = response.data;
@@ -165,12 +153,9 @@ function Login() {
     }
     return false; // Not a repeat
   }
-  const submitHandler = async (e) => {
-    e.preventDefault();
-  
-    console.log(name, email);
-  
+  const CheckifAdmin = async (name,email) => {
     if (name === 'admin' && email === 'easthsi-india@gapps.uwcsea.edu.sg') {
+      console.log("yes admin")
       const { value, dismiss } = await MySwal.fire({
         title: <strong>Please enter the password:</strong>,
         input: 'password',
@@ -192,11 +177,12 @@ function Login() {
   
       if (dismiss === 'cancel') {
         // If the user presses the cancel button, do nothing
-        return;
+        return false;
       }
   
       if (value === 'umang2021') {
-        navigate('/admin'); // Proceed to the /admin route
+        admin = true
+        return true// Proceed to the /admin route
       } else {
         MySwal.fire({
           title: <strong>Wrong password, try again!</strong>,
@@ -206,7 +192,18 @@ function Login() {
           buttonsStyling: false,
         });
       }
-    } else {
+    } 
+  }
+  const submitHandler = async (e) => {
+    e.preventDefault();
+  
+    console.log(name, email); // input from user
+    const checkadmin = await CheckifAdmin(name,email);
+    console.log("checkadmin"+checkadmin)
+    if(checkadmin === true){
+      navigate("/admin",{replace:true})
+    }
+   else {
       // For regular users, proceed with the existing flow
       if (!name || !email) {
         MySwal.fire({
@@ -286,4 +283,6 @@ function Login() {
   );
 }
 
+
 export default Login;
+export {admin};

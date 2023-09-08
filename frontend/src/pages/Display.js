@@ -18,6 +18,8 @@ import Artpic_17 from '../Artpics/Artpic_17.png';
 import Artpic_18 from '../Artpics/Artpic_18.png';
 import Artpic_19 from '../Artpics/Artpic_19.png';
 import emailjs from '@emailjs/browser'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -25,48 +27,22 @@ import ReactDOM from 'react-dom';
 import ModalImage from "react-modal-image";
 import classes from './Display.css';
 import Navbar_landing from '../component/Navbar_landing.js'
-import React, { useState, useEffect} from 'react';
-import Tabletop from "tabletop";
-import Navbar from '../component/Navbar.js';
-import { Button, Form, Container, Header,  } from 'semantic-ui-react'
-import Login from './Login.js'
+import React, { useState, useEffect} from 'react'
 import axios from 'axios';
 import { CheckCookie } from './Landing';
-import {exp1} from './Highestbids';
+import { paintingsTitles } from './Highestbids';
 import ImageDisplay from '../component/ImageDisplay';
-import swal from 'sweetalert';
 let rowcount = 1;
 let y =0;
 export var h1 = 70;
 const MySwal = withReactContent(Swal)
 var highestbid;
-const paintingsTitles = {
-  painting1: "Journey by Sona Arora",
-  painting2: "Bharatnatyam by Deepa Remani",
-  painting3: "Childhood by Anita Yang",
-  painting4: "Buddha's Reflections by Milan Khatri",
-  painting5: "Ocean of Brilliance! by Arppanaa John Yogesh",
-  painting6: "Aasha ki Kiran by Sanjana Krishna",
-  painting7: "Yunnan Impression: The Blooming of Chinese Hibiscus by Peng Yaling",
-  painting8: "Monet's Gardens Impression: Water Lily by Peng Yaling",
-  painting9: "Good Times by Aparna Chakravarty",
-  painting10: "The Nameless Buddha by Peng Yaling",
-  painting11: "The Dunhuang Buddha Statue by Peng Yaling",
-  painting12: "Let There Be Light by Shailaja Poddar",
-  painting13: "Bauhinia Fantasy by Amae Fung",
-  painting14: "Lost in Thought by Ganesh Bhat",
-  painting15: "Forgotten by Surabhi Nigam",
-  painting16: "Memories - Koi in a pond with lotus leaves! by Pratibha Malashetti",
-  painting17: "Yaggya - Havan Kund by Pratibha Malashetti",
-  painting18: "Ebb and Flow by Nisha Farah-Reijsbergen",
-  painting19: "Virikatirkal(விரிகதிர்கள்)- Divergent Rays by Nisha Farah-Reijsbergen",
-};
 
 console.log(paintingsTitles);
 
    
 
-async function bid(art_number){   //TODO: DISPLAY VALUES ONTO SCREEN
+async function bid(art_number){  
 
     var paintingnumber = "painting"+String(art_number);
     if(CheckCookie("name")==false){ 
@@ -130,7 +106,10 @@ async function bid(art_number){   //TODO: DISPLAY VALUES ONTO SCREEN
               email: prevemail,
               painting_title: paintingsTitles[paintingnumber],
             };
-             emailjs.send("service_adnzlti","template_fh02zsq",params,"e7AJH9FfOWzIXQQJm");
+            if(prevemail!="minbid@gmail.com"){
+              emailjs.send("service_adnzlti","template_fh02zsq",params,"e7AJH9FfOWzIXQQJm");
+            }
+
         }
     });
    
@@ -227,7 +206,9 @@ function alert3(){
                 <div>
                     <span>DESCRIPTION:</span> 
                     <br></br>
-                    <p1>Growing up as a Hindu in the UK, Hinduism did not penetrate beyond the Indian community. Its only later in life that I came across Buddha, and most starkly in Thailand. I realized that India has a rich and deep heritage, and in the case of Buddha is shared globally. </p1>
+                    <p1>Growing up as a Hindu in the UK, Hinduism did not penetrate beyond the Indian community. 
+                      Its only later in life that I came across Buddha, and most starkly in Thailand. I realized that India has a rich and deep heritage, 
+                      and in the case of Buddha is shared globally. </p1>
                     <br></br>
                     <br></br>
                     <p1><span>MEDIUM:</span> Acrylic Canvas</p1>
@@ -676,12 +657,51 @@ function Display()
         // console.log(response.data)
         })
         // console.log("in display"+HighestBidsValues.painting1)
+
+        const [searchQuery, setSearchQuery] = useState('');
+        const [filteredPaintings, setFilteredPaintings] = useState([]);
+      
+        const scrollToPainting = (paintingTitle) => {
+          const paintingElement = document.getElementById(paintingTitle);
+          if(paintingElement) {
+            paintingElement.scrollIntoView({behavior: "smooth"});
+          }
+        }
+      
+        const handleSearch = (searchValue) => {
+          setSearchQuery(searchValue);
+          const filtered = Object.values(paintingsTitles).filter(title =>
+            title.toLowerCase().includes(searchValue.toLowerCase())
+          );
+          setFilteredPaintings(filtered);
+        }
+      
         return (
           <div>
             <Navbar_landing></Navbar_landing>
-            <div id="root" style={{ padding: '5%' }}>   
-              <h1>Art Gallery</h1>
-              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
+            <h1>Art Gallery</h1>
+            <div style={{ position: 'relative' }}>
+              <FontAwesomeIcon icon={faSearch} style={{ position: 'relative',left: '35px', zIndex: '1', color: 'gray' }} />
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Search for a painting..."
+                onChange={(e) => handleSearch(e.target.value)}
+                value={searchQuery}
+                style={{ paddingLeft: '40px' }} // Add padding to make space for the icon
+              />
+            </div>
+            {searchQuery.length > 0 && (
+              <ul id="suggestions">
+                {filteredPaintings.map((title, index) => (
+                  <li key={index} onClick={() => scrollToPainting(title)}>
+                    {title}
+                  </li>
+                ))}
+              </ul>
+            )}
+          <div id="root" style={{ padding: '5%', textAlign: 'center' }}>   
+            <div className="gallery-container">
                 <ImageDisplay image={Artpic_4} title={paintingsTitles.painting4} size="image2" bid={HighestBidsValues.painting4} alert={alert4} placebid={() => bid(4)}></ImageDisplay>
                 <ImageDisplay image={Artpic_2} title={paintingsTitles.painting2} size="image2" bid={HighestBidsValues.painting2} alert={alert2} placebid={() => bid(2)}></ImageDisplay>
                 <ImageDisplay image={Artpic_6} title={paintingsTitles.painting6} size="image2" bid={HighestBidsValues.painting6} alert={alert6} placebid={() => bid(6)}></ImageDisplay>

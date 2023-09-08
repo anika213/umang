@@ -2,13 +2,16 @@ import classes from './Highestbids.css'
 import { BrowserRouter, json, renderMatches, Route, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Component } from 'react'
+import Swal from 'sweetalert2';
+
 import Navbar_landing from '../component/Navbar_landing.js'
 import React, { useEffect, useState } from "react";
 import useInterval from 'use-interval'
 import axios from 'axios';
 import h1 from './Display';
+import LoadingScreen from '../component/Loading';
 
-const paintingsTitles = {
+ const paintingsTitles = {
     painting1: "Journey by Sona Arora",
     painting2: "Bharatnatyam by Deepa Remani",
     painting3: "Childhood by Anita Yang",
@@ -29,34 +32,58 @@ const paintingsTitles = {
     painting18: "Ebb and Flow by Nisha Farah-Reijsbergen",
     painting19: "Virikatirkal(விரிகதிர்கள்)- Divergent Rays by Nisha Farah-Reijsbergen",
   };
-
-
-function Highestbids() {
+  function Highestbids() {
     let [HighestBidsValues, setHighestBidsValues] = useState([]);
     let [HighestBiddersValues, setHighestBiddersValues] = useState([]);
+    let [isLoading, setIsLoading] = useState(true); // Maintain this state
   
     useEffect(() => {
+      // Show the loading popup
+      Swal.fire({
+        title: 'Loading...',
+        html: '<div class="spinner"></div>', // Spinner CSS class is used
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false
+      });
+  
       axios.get('http://localhost:8000/allbids/getallhighest')
         .then((response) => {
           setHighestBidsValues(response.data);
         });
-  
+    
       axios.get('http://localhost:8000/allbids/getallhighestbidders')
         .then((response) => {
           setHighestBiddersValues(response.data);
+  
+          // Close the loading popup
+          Swal.close();
+          setIsLoading(false);
         });
     }, []);
   
     const artPieces = Array.from({ length: 19 }, (_, index) => index + 1);
-  
     return (
       <div>
-        <Navbar_landing></Navbar_landing>
+        <Navbar_landing />
+        <div>
+      {isLoading && (
+        <div className="loading-overlay">
+          <div className="spinner"></div>
+        </div>
+      )}
+      <div className={isLoading ? "blur-content" : ""}>
+        </div>
+        </div>
         <h1> Highest Bids</h1>
-        <div class="bidstext">
+        <div className="bidstext">
           {artPieces.map((number) => (
             <p key={number}>
-              <span class="bluetext">{paintingsTitles[`painting${number}`]}:</span> <span class="boldtext">{HighestBidsValues[`painting${number}`]}</span> Bid By {HighestBiddersValues[`painting${number}`]}
+              <span className={HighestBiddersValues[`painting${number}`] === "Minimum Bid" ? "redtext" : "bluetext"}>
+                {paintingsTitles[`painting${number}`]}
+              </span>
+              :{" "}
+              <span className="boldtext">{HighestBidsValues[`painting${number}`]}</span> Bid By {HighestBiddersValues[`painting${number}`]}
             </p>
           ))}
         </div>
@@ -65,4 +92,5 @@ function Highestbids() {
   }
   
   export { Highestbids };
-  
+  export { paintingsTitles };
+

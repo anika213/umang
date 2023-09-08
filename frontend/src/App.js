@@ -1,17 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
-  HashRouter
 } from 'react-router-dom';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Display from './pages/Display';
 import {About} from './pages/About';
 import {MyBids} from './pages/MyBids';
-import Navbar from './component/Navbar';
 import {Highestbids} from './pages/Highestbids';
 import {Admin} from './pages/AdminInterface';
 import 'react-toastify/dist/ReactToastify.css';

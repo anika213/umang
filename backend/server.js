@@ -4,7 +4,8 @@ const { RateLimiterMemory } = require('rate-limiter-flexible');
 const { MongoClient } = require("mongodb");
 require('dotenv').config();
 const mongoose = require("mongoose");
-const axios= require("axios")
+const axios= require("axios");
+const { getApp } = require('firebase-admin/app');
 const app = express();
 const router = express.Router()
 
@@ -29,9 +30,9 @@ connection().catch(console.error);
 
 
 getUserEmails = async () => {
-    
     return await users.find().toArray()
 }
+
 
 getAllBids = async () => {
     
@@ -72,32 +73,67 @@ getAllHighestBids = async () => {
   
     return highestBidsData;
   };
+
+
+  getAllNotes = async () => {
+    let allinfo = await paintings.find({}, { "_id": 0, "painting": 1 }).toArray();
+    var NotesData = {};
+    var allnotes =[]
+    for (var i = 0; i < allinfo.length; i++) {
+      const number = allinfo[i].painting.toString();
+      allnotes =[]
+      for(var j=0;j<allinfo[i].notes.length;j++){
+        allnotes.push(allinfo[i].notes[j]);
+      }
+    NotesData[number] = allnotes;
+    }
+    return NotesData
   
+  };
+  
+addWriteNote = async (note,paintingnumber) => {
+    console.log(note)
+    console.log(paintingnumber)
+    paintings.updateOne(
+        {"painting":paintingnumber},
+        {$push:
+        {"notes":note}},
+        {
+          upsert:true
+        }
+
+     )    
+     return true
 
 
-getAllBiddinginfo = async () => {
-    console.log("in getall biddinginfo")
-    let allinfo = await paintings.find({}, {"_id": 0, "painting": 1}).toArray()
-    var highestbidsdata = []
-    var highestbiddersnames =[]
-    var highestbiddersemails =[]
-
-    for(var i=0;i<allinfo.length;i++){
-        highestbidsdata.push(allinfo[i].highestBid.bidvalue);
-        highestbiddersnames.push(allinfo[i].highestBid.bidder);
-    }
-    console.log(highestbidsdata, highestbiddersnames)
-
-    for(var j=0;j<highestbiddersnames.length;j++){
-        var bidderemail = await users.find({"username":highestbiddersnames[j]}).toArray()
-        console.log(highestbiddersnames[j])
-        console.log(bidderemail[0].useremail)
-            highestbiddersemails.push(bidderemail[0].useremail) // IF DUPLICATE NAME IN DB, GONNA CRASH.
-
-    }
-    return [highestbidsdata,highestbiddersnames,highestbiddersemails]
 }
 
+
+  getAllBiddinginfo = async () => {
+  
+    var highestbidsdata = await getAllHighestBids();
+    var highestbiddersnames = await getAllHighestBidders();
+    var notes = await getAllNotes();
+    console.log(notes)
+    console.log(highestbidsdata);
+  
+    var highestbiddersemails = {};
+    for (const paintingNumber in highestbiddersnames) {
+      const bidderName = highestbiddersnames[paintingNumber];
+      var bidderemail = await users.find({"username": bidderName}).toArray();
+  
+      // Check if bidderemail is found and has at least one entry
+      if (bidderemail.length > 0 && bidderemail[0].useremail) {
+        highestbiddersemails[paintingNumber] = bidderemail[0].useremail;
+      } else {
+        highestbiddersemails[paintingNumber] = "TEST"; // If not found, set to "TEST"
+      }
+    }
+    
+    console.log(highestbiddersemails);
+    return [highestbidsdata, highestbiddersnames, highestbiddersemails, notes];
+  }
+  
 
 
 app.use(cors());
@@ -108,6 +144,22 @@ app.get("/users", async (req, res) => {
     const emails = await getUserEmails()
     res.json(emails) 
 })
+
+
+
+app.put("/paintings/writenote", async (req, res) => {
+   const{note,paintingnumber} = req.body;
+    console.log(note)
+    var check = await addWriteNote(note,paintingnumber)
+    if(check==true)
+        res.send({status:"OK"})
+    else{
+        res.send({status:"ERROR"})
+    }
+})
+
+
+
 
 app.put("/users/logininfo",  async (req, res) => {
 

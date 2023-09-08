@@ -11,6 +11,53 @@ h1{
     color:black;
     font-family:"Cinzel";
 }
+#suggestions {
+    background-color: white;
+    border-radius: 15px;
+    font-family: 'Abel', sans-serif;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 40%;
+    margin-left: 29%;
+    margin-right: 29%;  /* Balance the right side margin */
+  }
+  
+  #suggestions li {
+    padding: 10px;
+    margin: 0;  /* Remove any margins */
+    cursor: pointer;
+    list-style: none;  /* Remove bullet points */
+    width: 100%;  /* Full width */
+    display: block;  /* Makes the entire row clickable */
+    border-radius: 15px;  /* Rounded corners */
+    text-align: center;  /* Center the text within the row */
+    overflow: hidden;  /* Hide the overflow */
+    white-space: nowrap;  /* Keep text on a single line */
+    text-overflow: ellipsis;  /* Add ellipsis for overflow */
+  }
+  
+  #searchInput {
+    border-radius: 15px;
+    padding: 10px;
+    margin-top: 1%;
+    width: 40%;
+    height: 35px;
+    font-family: 'Abel';
+    /* background-image: url('search-icon.png'); Replace with your icon's path */
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-color: rgb(255, 255, 255);
+  }
+  
+  #suggestions li:hover {
+    background-color: #e7e7e7;  /* Background color for hovered item */
+    border-radius: 15px;  /* Rounded corners for hovered item */
+    margin-left:-5.5%;  /* Remove any margins for the hover state */
+    width:103%;
+  }
+
+
+  
 .nav{
     height: 20px;
    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -22,7 +69,16 @@ h1{
     gap: 2rem;
 
 }
-
+.gallery-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+  }
+  .gallery-container > div {
+    margin: 15px;
+  }  
 .nav u1{
     padding: 0;
     list-style: none;

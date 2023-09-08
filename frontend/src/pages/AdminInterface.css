@@ -3,19 +3,14 @@
     color:rgb(153, 152, 140);
 }
 
-.parent{
-    display:flex;
-    justify-content: space-around;
-    margin-left: 70px;
-    position:relative;
-}
-
-.parent2{
-    display:flex;
-    justify-content: space-around;
-    margin-left: 70px;
-    position:relative;
-}
+.parent, .parent2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-left:160px;
+  }
+  
 
 .buttondownload{
     width:100px;
@@ -23,6 +18,10 @@
     color:white;
 }
 
+strong{
+    font-family: 'Abel';
+    font-size: 25px;
+}
 .buttonreset{
     width:100px;
     height:60px;

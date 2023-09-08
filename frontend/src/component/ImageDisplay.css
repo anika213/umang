@@ -10,12 +10,17 @@
     height:45vmin;
 }   
 
+.swal2-popup {
+    font-family: "Abel";
+  }
+
 .button1{
 
 justify-content: center;
 height:40px;
 width: 80px;
-background-color: royalblue;
+margin-left:5px;
+background-color: rgb(0, 89, 133);
 border:10px;
 color:white;
 font-family: "Abel";
