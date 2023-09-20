@@ -1,11 +1,15 @@
 const express = require('express');
 const cors = require('cors');
+
 const { RateLimiterMemory } = require('rate-limiter-flexible');
-const { MongoClient } = require("mongodb");
+const { MongoClient, GridFSBucket, ObjectId } = require("mongodb");
 require('dotenv').config();
 const mongoose = require("mongoose");
+const stream = require('stream');
+
 const axios= require("axios");
 const { getApp } = require('firebase-admin/app');
+const { reset } = require('nodemon');
 const app = express();
 const router = express.Router()
 
@@ -15,6 +19,14 @@ const client = new MongoClient(uri);
 const database = client.db(process.env.DATABASE_NAME);
 const users = database.collection('users');
 const paintings = database.collection('paintings');
+const paintingbids = database.collection('paintingbids');
+const imagechunks = database.collection('images.chunks');
+const imagefiles = database.collection('images.files');
+
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json({ limit: '30mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 async function connection(){
     try {
         // Connect to the mongo cluster
@@ -48,6 +60,20 @@ getMyBids = async (userName) => {
     return(mybidsdata[0].userbids);
 }
 
+
+getimages = async (paintingnumber) => {
+    const painting = await collection.findOne({ paintingnumber: paintingnumber });
+  
+    // Check if painting exists and has an image field
+    if (painting && painting.image) {
+      // Return the URL to access the image
+      return `http://localhost:8080/image/${painting.image}`;
+    } else {
+      console.log(`Painting with number ${paintingnumber} not found or doesn't have an image.`);
+      return null;
+    }
+  };
+  
 
 getAllHighestBidders = async () => {
     let allinfo = await paintings.find({}, { "_id": 0, "painting": 1 }).toArray();
@@ -109,6 +135,22 @@ addWriteNote = async (note,paintingnumber) => {
 }
 
 
+resetAuction = async () => {
+  // Delete all users except the one with username "Minimum Bid"
+  await users.deleteMany({ username: { $ne: "Minimum Bid" } });
+
+  // Clear paintings collection
+  await paintings.deleteMany({});
+  await paintingbids.deleteMany({});
+  await imagefiles.deleteMany({});
+  await imagechunks.deleteMany({});
+
+  // Uncomment the following lines if you also want to delete image files and chunks
+  // await images.files.deleteMany({});
+  // await images.chunks.deleteMany({});
+}
+
+
   getAllBiddinginfo = async () => {
   
     var highestbidsdata = await getAllHighestBids();
@@ -157,7 +199,29 @@ app.put("/paintings/writenote", async (req, res) => {
         res.send({status:"ERROR"})
     }
 })
+app.put("/admin/deletepainting", async (req, res) => {
+  const{paintingnumber} = req.body;
+  console.log(paintingnumber)
+  paintings.deleteOne({"painting":paintingnumber})
+  res.status(200).send("ok");
+})
 
+app.put("/admin/loadinfo", async (req, res) => {
+  const { paintingnumber } = req.body;
+  console.log(paintingnumber);
+  
+  try {
+    const info = await paintings.findOne({ "painting": paintingnumber });
+    if (info) {
+      res.json({ info: info });
+    } else {
+      res.status(404).json({ message: 'Painting not found' });
+    }
+  } catch (error) {
+    console.error("Error fetching painting information:", error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
 
 
 
@@ -181,6 +245,28 @@ app.put("/users/logininfo",  async (req, res) => {
 })
 
 
+
+app.put("/admin/viewhistory",  async (req, res) => {
+
+  try{
+      const {paintingnumber} = req.body
+      console.log(paintingnumber)
+      const history = await paintingbids.findOne({"painting":paintingnumber})
+      res.send(history.bids)
+  }
+  catch(error){
+      res.send({status:"error"})
+      console.log(error);
+
+  }
+})
+
+
+
+
+
+
+
 app.listen(8000, () => {
     console.log(`Server is running on port 8000.`);
   });
@@ -201,6 +287,16 @@ app.listen(8000, () => {
               upsert:true
             }
          )
+
+         paintingbids.updateOne(
+          {"painting":paintingnumber},
+          {$push:{
+          "bids":updatedVal}},
+          {
+            upsert:true
+          }
+       )
+
         res.send({status:"ok"})
     }
     catch(error){
@@ -301,3 +397,208 @@ app.get("/mybids", async (req, res) => {
     const docs = await getMyBids(userName);
     res.json(docs) 
 })
+
+app.get("/resetauction", async (req, res) => {
+ resetAuction();
+ res.status(200).send("ok");
+})
+
+app.get("/image/:id", async (req, res) => {
+  try {
+    const bucket = new GridFSBucket(client.db('testdatabase'), { bucketName: 'images' });
+    const downloadStream = bucket.openDownloadStream(new MongoClient.ObjectID(req.params.id));
+    downloadStream.pipe(res);
+  } catch (error) {
+    res.status(404).send("Image not found");
+  }
+});
+
+
+app.put("/admin/addpainting", async (req, res) => {
+  try {
+    const { title, artist, description, medium, minBid, styling, image, paintingnum } = req.body;
+
+    // Create HighestBid object
+    const HighestBid = {
+      "bidder": "Minimum Bid",
+      "bidvalue": minBid
+    };
+
+    // Check if painting with the title already exists
+    const allinfo = await paintings.find({}, { projection: { "_id": 0, "painting": 1, "title": 1 } }).toArray();
+    const accTitle = title +" by "+ artist;
+    console.log("PAINTINGNUM"+paintingnum)
+    if(paintingnum!=""){
+    // const paintingExists = allinfo.some(item => item.title === accTitle);
+      const paintingInfo = await paintings.findOne({ "painting": paintingnum });
+      if (!paintingInfo) {
+        return res.status(404).send("Painting not found");
+      }
+      console.log("acc"+accTitle)
+      await paintings.updateOne(
+        { painting: paintingnum },
+        { $set: {
+          "title": accTitle,
+          "description": description,
+          "medium": medium,
+          "size": styling
+        }}
+      );
+      // Add code here to update the image if needed
+      res.status(200).send("Updated existing painting");
+
+    } else { // ADD NEW PAINTING
+      // Logic for generating new painting number remains the same
+       // Create an array of just the "painting" fields
+      const paintingArray = allinfo.map(item => item.painting);
+
+      const numericParts = paintingArray.map(paintingNumber => parseInt(paintingNumber.replace('painting', '')));
+      let highestValue = Math.max(...numericParts);
+      if(highestValue == -Infinity){
+            highestValue = 0;
+      }
+      const newPaintingNumber = `painting${highestValue + 1}`;
+
+      // insert new painting
+      await paintings.insertOne({
+        "painting": newPaintingNumber,
+        "title": accTitle,
+        "description": description,
+        "medium": medium,
+        "highestBid": HighestBid,
+        "size": styling,
+        "notes":[]
+      });
+      await paintingbids.insertOne({
+        "painting": newPaintingNumber,
+        "bids": [],
+      });
+      const imageBase64 = req.body.image.split(',')[1];  // Assuming image is sent as Data URL
+      const buffer = Buffer.from(imageBase64, 'base64');
+      const readableStream = new stream.Readable();
+      readableStream.push(buffer);
+      readableStream.push(null);  // Indicates EOF
+      
+      const bucket = new GridFSBucket(client.db('testdatabase'), { bucketName: 'images' });
+      const uploadStream = bucket.openUploadStream(accTitle);  
+      
+      readableStream.pipe(uploadStream);
+      
+      uploadStream.on('finish', async (file) => {
+       await paintings.updateOne(
+         { painting: newPaintingNumber },
+         { $set: { image: ObjectId(file._id.toString())} }
+       );
+       res.status(200).send("ok");
+      });
+    }
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
+app.get("/image", async (req, res) => {
+  try {
+    const paintingnumber = req.query.paintingnumber;
+    console.log("Requested painting number:", paintingnumber);  // Debug log
+
+    const paintingInfo = await paintings.findOne({ painting: paintingnumber });
+    console.log("Found painting info:", paintingInfo);  // Debug log
+
+    if (!paintingInfo || !paintingInfo.image) {
+      return res.status(404).send("Image not found");
+    }
+
+    const imageId = paintingInfo.image.toString(); // Converting ObjectId to string
+    console.log("Found image ID:", imageId);  // Debug log
+
+    const bucket = new GridFSBucket(client.db('testdatabase'), { bucketName: 'images' });
+    const downloadStream = bucket.openDownloadStream(new ObjectId(imageId));
+
+    downloadStream.pipe(res);
+
+  } catch (error) {
+    console.log("Error:", error);  // Debug log
+    res.status(404).send("Image not found");
+  }
+});
+
+
+
+
+app.get("/checkifbiddingdone", async (req, res) => {
+
+  // check whether there is a document in the users database with username "I-INDIA-ADMIN"
+  const check = await users.find({"username":"Minimum Bid"}).toArray();
+  // console.log(check)
+  if(check.length>0 && check[0].endBidding==true){
+    res.send({status:true})
+  }
+  else{
+    res.send({status:false})
+  }
+
+});
+
+app.get('/admin/endbidding', async (req, res) => {
+  // add a document in the users database
+  // find document in users with username Minimum Bid
+  let admin = await users.findOne({"username":"Minimum Bid"});
+  console.log(admin)
+  if(admin.endBidding==true){
+    await users.updateOne(
+      { "username": "Minimum Bid" },
+      { $set: { "endBidding": false } }
+    );
+  }
+
+  else{
+    await users.updateOne(
+      { "username": "Minimum Bid" },
+      { $set: { "endBidding": true } }
+    );
+
+  }
+
+  console.log("ended")
+  res.status(200).send("ok");
+
+
+});
+
+
+  app.get('/paintinginfo', async (req, res) => {
+    // get all information about each painting in the database
+    const allinfo = await paintings.find().toArray();
+    
+    var paintingsTitles = {};
+    var paintingsDescriptions = {};
+    var paintingsMediums = {};
+    var paintingsSizes = {};
+    var paintingsHighestBids = {};
+    var imageUrls = {};
+    
+    // Loop through each painting to extract information
+    allinfo.forEach((paintingInfo) => {
+      const paintingName = paintingInfo.painting;
+      paintingsTitles[paintingName] = paintingInfo.title || 'N/A';
+      paintingsDescriptions[paintingName] = paintingInfo.description || 'N/A';
+      paintingsMediums[paintingName] = paintingInfo.medium || 'N/A';
+      paintingsSizes[paintingName] = paintingInfo.size || 'N/A';
+      paintingsHighestBids[paintingName] = paintingInfo.highestBid ? paintingInfo.highestBid.bidvalue : 'N/A';
+      imageUrls[paintingName] = `http://localhost:8000/image?paintingnumber=${paintingName}`;
+    });
+    console.log(imageUrls)  
+    res.status(200).json({
+      titles: paintingsTitles,
+      descriptions: paintingsDescriptions,
+      mediums: paintingsMediums,
+      sizes: paintingsSizes,
+      highestBids: paintingsHighestBids,
+      images: imageUrls,
+    });
+  });
+  

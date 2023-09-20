@@ -5,30 +5,120 @@ import Chart from '../component/BiddersChart'
 import { saveAs } from 'file-saver';
 import axios from 'axios';
 import {admin} from './Login.js'
-import withReactContent from 'sweetalert2-react-content';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import withReactContent from 'sweetalert2-react-content';
 import { paintingsTitles } from './Highestbids';
 const MySwal = withReactContent(Swal);
+
+
+async function viewPaintingHistory(paintingNumber) {
+  try {
+    const response = await axios.put('http://localhost:8000/admin/viewhistory', { "paintingnumber": paintingNumber });
+    const bidHistory = response.data; // Assuming the response contains the bid history data
+
+    const bidList = bidHistory.map((bid, index) => `${index + 1}. Bidder: ${bid.bidder}, Value: ${bid.bidvalue}`);
+
+    MySwal.fire({
+      title: `Bidding History`,
+      html: `
+        <p>Bid History:</p>
+        ${bidList.map((bidItem) => `<div>${bidItem}</div>`).join('')}
+      `,
+      showCancelButton: false,
+      confirmButtonText: 'OK',
+      buttonsStyling: false,
+    });
+  } catch (error) {
+    console.error("Error fetching bid history:", error);
+  }
+}
+
+async function endBidding(){
+  MySwal.fire({
+    title: 'Are you sure?',
+    text: 'Do you really want to change the bidding state? This action will be irreversible.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes',
+    cancelButtonText: 'No',
+    buttonsStyling: false,
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+        const response = await axios.get('http://localhost:8000/admin/endbidding');
+        if (response.status === 200) {
+          MySwal.fire({
+            title: 'Bidding State Changed!',
+            icon: 'success',
+            showCancelButton: false,
+            buttonsStyling: false,
+          })
+        }
+  
+      } catch (error) {
+        console.error("Error ending the bidding:", error);
+        MySwal.fire(
+          'Failed!',
+          'The bidding could not be ended.',
+          'error'
+        );
+      }
+    }
+  });
+
+}
 
 function Admin() {
   const navigate = useNavigate();
   console.log("ADMIN"+admin)
-  if (admin === false) {
-    MySwal.fire({
-      title: <strong>You are not authorized to see this page</strong>,
-      background: 'white',
-      width: '50vmin',
-      confirmButtonText: 'OK',
-      buttonsStyling: false,
-    }).then(() => {
-      navigate('/login', { replace: true }); // Redirect to "/display" when OK is clicked
-    });
+  let [paintingsTitles, setPaintingTitles] = useState([]);
 
-    return null; // Return null since the content should not be displayed
-  }
 
-  else{
+
+  
+  
+  // if (admin === false) {
+  //   MySwal.fire({
+  //     title: <strong>You are not authorized to see this page</strong>,
+  //     background: 'white',
+  //     width: '50vmin',
+  //     confirmButtonText: 'OK',
+  //     buttonsStyling: false,
+  //   }).then(() => {
+  //     navigate('/login', { replace: true }); // Redirect to "/display" when OK is clicked
+  //   });
+
+  //   return null; // Return null since the content should not be displayed
+  // }
+
+  // else{
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/paintinginfo');
+        // Accessing the properties in the response
+        const titles = response.data.titles;
+
+        
+        // Update the state variables
+        setPaintingTitles(titles);
+
+  
+  
+        // Set the number of paintings
+
+      } catch (error) {
+        // Handle any errors here
+        console.error("Error fetching data:", error);
+      }
+    };
+    
+    fetchData();
+  }, []);
 
     function handleDownloadClick() {
       console.log("in handle download click");
@@ -41,7 +131,7 @@ function Admin() {
           const paintingNumbers = Object.keys(highestBiddersNames); // get painting numbers from keys
           const columnNames = ["Painting Title", "Names of Bidders", "Bidder Emails", "Highest Bids", "Notes for Artists"];
           const rows = paintingNumbers.map((paintingNumber) => [
-            paintingsTitles[paintingNumber], // using titles from the titles dictionary
+            paintingsTitles[paintingNumber], // using titles from te titles dictionary
             highestBiddersNames[paintingNumber], 
             highestBiddersEmails[paintingNumber], 
             highestBidsData[paintingNumber],
@@ -57,8 +147,11 @@ function Admin() {
         });
     }
     
+
     
-  
+  function gotoUpload(){
+      navigate('/upload', { replace: true }); // Redirect to "/display" when OK is clicked
+  }
 
     return (
 
@@ -68,9 +161,39 @@ function Admin() {
             <p class='heading'>Welcome Organiser!</p>
 
             <button className="buttondownload" onClick={handleDownloadClick} > Download Data </button>
-
-            <p>The Charts below are for you to visualise the current progress of the bidding</p>
             <br></br>
+
+            <div>
+        <p className='mini-title'>Current Paintings in the Database</p>
+        {
+  Object.keys(paintingsTitles).length > 0 ? (
+    <table>
+      <thead>
+        <tr>
+          <th>Painting Number</th>
+          <th>Title</th>
+        </tr>
+      </thead>
+      <tbody>
+        {Object.keys(paintingsTitles).map((paintingNumber, index) => (
+          <tr key={index} onClick={() => viewPaintingHistory(paintingNumber)}>
+            <td>{paintingNumber}</td>
+            <td>{paintingsTitles[paintingNumber]}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  ) : (
+    <p>No paintings currently in the Database</p>
+  )
+}
+
+      </div>
+      <br></br>
+      <br></br>
+      <p className='mini-title'>The Charts below are for you to visualise the current progress of the bidding</p>
+      <br></br>
+      <br></br>
         <div class='parent'>
           <Chart CSStype = "chart1" height={'400px'} width={'600px'} chartId={'63b57798-b99d-4d32-8b81-82b42cc44254'} chartURL={'https://charts.mongodb.com/charts-project-0-mqzzv'} />
           <Chart CSStype = "chart2" height={'400px'} width={'600px'} chartId={'63b629c0-e76a-4b83-8a50-1144282f8f33'} chartURL={'https://charts.mongodb.com/charts-project-0-mqzzv'} />
@@ -82,7 +205,13 @@ function Admin() {
         </div>
         <br></br>
         <br></br>
-        {/* <button className="buttonreset" >Reset auction</button> */}
+
+        <button className="buttonmanage" onClick={gotoUpload} >Manage Paintings</button>
+        <br></br>
+        <br></br>
+        <button className="buttonreset" onClick={endBidding}>Stop/Start Bidding</button>
+
+
 
         <br></br>
         <br></br>
@@ -99,6 +228,6 @@ function Admin() {
     }
 
     
-}
+// }
 
 export {Admin}; 

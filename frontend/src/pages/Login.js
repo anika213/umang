@@ -1,11 +1,12 @@
 import classes from './Login.css';
 import Navbar from '../component/Navbar.js';
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { set } from 'mongoose';
 
 var password = '';
 var userdata = [];
@@ -21,10 +22,36 @@ function setCookie(cname, cvalue, exdays) {
   document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/'; // creat cookie with name, value, expiry date and path to website
 }
 
-function Login() {
+ async function checkIfBiddingDone() {
+  const response = await axios.get('http://localhost:8000/checkifbiddingdone');
+  console.log(response.data);
+  if (response.data.status === true) {
+    return true;
+  }
+  return false;
+
+}
+
+ function Login() {
   let [name, setName] = useState('');
   let [email, setEmail] = useState('');
   let [userpassword, setUserPassword] = useState('');
+  const [isAnonymous, setIsAnonymous] = useState(false);
+  const [isBiddingEnded, setIsBiddingEnded] = useState(false);
+
+const [noOutbidEmails, setNoOutbidEmails] = useState(false);
+const toggleIsAnonymous = () => setIsAnonymous(!isAnonymous);
+const toggleNoOutbidEmails = () => setNoOutbidEmails(!noOutbidEmails);
+useEffect(() => {
+  const fetchData = async () => {
+    if (await checkIfBiddingDone() === true) {
+      setIsBiddingEnded(true);
+    }
+  };
+  fetchData();
+}, []);
+
+
   const navigate = useNavigate();
 
   const onChangeName = (e) => {
@@ -67,7 +94,7 @@ function Login() {
       userpass: password,
     };
     console.log('real' + password);
-     emailjs.send("service_adnzlti","template_i1if82w",params,"e7AJH9FfOWzIXQQJm");
+    //  emailjs.send("service_adnzlti","template_i1if82w",params,"e7AJH9FfOWzIXQQJm");
   }
     // console.log('actual password:' + password);
   async function ValidateEmail(emailcheck, name) {
@@ -196,8 +223,21 @@ function Login() {
   }
   const submitHandler = async (e) => {
     e.preventDefault();
+    console.log("isended"+isBiddingEnded)
   
     console.log(name, email); // input from user
+    if(isBiddingEnded === true){
+      //alert the user that they cant log in because bidding is done
+      MySwal.fire({
+        title: <strong>Sorry, You can't log on to bid, the Bidding has ended!</strong>,
+        background: 'white',
+        width: '35vmax',
+        confirmButtonText: 'OK',
+        buttonsStyling: false,
+      });
+      console.log("bidding ended")
+      return;
+    }
     const checkadmin = await CheckifAdmin(name,email);
     console.log("checkadmin"+checkadmin)
     if(checkadmin === true){
@@ -264,6 +304,29 @@ function Login() {
             name="Email"
             onChange={onChangeEmail}
           />
+          <br></br>
+          <br></br>
+          {/* {/* <br></br> */}
+          {/* <input
+    className="smallCheckbox"  // Apply the style here
+    type="checkbox"
+    id="anonymous"
+    name="anonymous"
+    value={isAnonymous}
+    onChange={toggleIsAnonymous}
+  />
+  <label className="checkboxLabel" htmlFor="anonymous">I wish to bid anonymously</label>
+  <br />
+
+  <input
+    className="smallCheckbox"   // Apply the style here
+    type="checkbox"
+    id="noOutbidEmails"
+    name="noOutbidEmails"
+    value={noOutbidEmails}
+    onChange={toggleNoOutbidEmails}
+  />
+  <label className="checkboxLabel" htmlFor="noOutbidEmails">I don't want to recieve an email if I've been outbid </label> */}
         </form>
         <br />
         <button className="button9" color="blue" onClick={submitHandler}>
@@ -286,3 +349,4 @@ function Login() {
 
 export default Login;
 export {admin};
+export {checkIfBiddingDone}

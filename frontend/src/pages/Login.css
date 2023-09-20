@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Abel');
 
 body{
-    margin: 0;
-    background-color: rgb(153, 119, 119);
+    /* margin: 0;
+    background-color: rgb(153, 119, 119); */
 }
 h1{
     font-size: 20px;
@@ -128,13 +128,25 @@ label{
     
 
 }
+
+
+.smallCheckbox {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+  }
+  
+  .checkboxLabel {
+    vertical-align: middle;
+    margin-left: 5px;
+  }
 .card-container {
     background-color: white;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 700px;
-    height:400px;
+    width: 50%;
+    height:50vh;
     margin: 50px auto 20px; /* Added margin to the top */
   }
   

@@ -107,12 +107,12 @@ span{
 strong{
     font-family: "Abel";
 }
-.image2{
+.horizontal{
     width: '80vmax';
     height:'35vmax';
 }   
 
-.image3{
+.vertical{
     width: 350px;
     height:250px;
 }   

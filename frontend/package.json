@@ -27,6 +27,7 @@
     "mdb-react-ui-kit": "^5.1.0",
     "mongoose": "^6.8.0",
     "nodemon": "^2.0.20",
+    "pikaday": "^1.8.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
     "react-device-emulator": "^1.1.0",

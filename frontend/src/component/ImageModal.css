@@ -1,0 +1,122 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Make sure this is above everything else */
+}
+
+.imagetext{
+  font-size: 40px;
+
+
+}
+.modal-card {
+  background: white;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  width:60%;
+  height:70%;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.field-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;  
+}
+.field-label {
+  margin-right: 10px;
+  width: 120px; /* fixed width to align all labels */
+  text-align: right; /* align text to the right within this fixed width */
+}
+
+.field-input {
+  flex: 1;
+  border-radius: 8px; /* rounded edges */
+  padding: 8px; /* padding inside input */
+  background-color: white;
+}
+
+.verticalupload{
+
+  margin-left: 120px;
+  width: 300px;
+  height:400px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  margin-top: 120px;
+  margin-left:50px;
+}
+
+.modal-title {
+  margin-right: 10px;
+}
+.title-input {
+  flex: 1;
+  border-radius: 8px; /* rounded edges */
+  padding: 8px; /* padding inside input */
+  width: 200px; /* you can adjust this */
+}
+
+
+.style-button{
+  height:50px;
+  width:100px;
+  font-size: 15px;
+}
+
+
+.done-button{
+  height:50px;
+  width:100px;
+  font-size: 15px;
+  margin-left:200px;
+  margin-top:20px;
+  background-color: rgb(142, 142, 142);
+  border-color: black;
+}
+
+.horizontalupload{
+  margin-left: 100px;
+  width: 500px;
+  height:300px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+
+.modal-left {
+  flex: 1;
+}
+
+.modal-right {
+  flex: 1;
+  margin-top:120px;
+  margin-left:30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.modal-image {
+  margin-top: 200px;
+  width: 400px;
+  height:300px;
+
+}

@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Display from './pages/Display';
 import {About} from './pages/About';
 import {MyBids} from './pages/MyBids';
+import {UploadImages} from './pages/UploadImages';
 import {Highestbids} from './pages/Highestbids';
 import {Admin} from './pages/AdminInterface';
 import 'react-toastify/dist/ReactToastify.css';
@@ -28,6 +29,8 @@ function App() {
                  <Route exact path='/about' element={< About />}></Route>
                  <Route exact path='/mybids' element={< MyBids />}></Route>  
                  <Route exact path='/admin' element={< Admin />}></Route>
+                 <Route exact path='/admin' element={< Admin />}></Route>
+                  <Route exact path='/upload' element={< UploadImages />}></Route>
                  
           </Routes>
           

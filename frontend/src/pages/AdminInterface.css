@@ -29,6 +29,14 @@ strong{
     margin-right: 100px;
     background-color: brown;
 }
+
+.buttonmanage{
+    width:100px;
+    height:60px;
+    color:white;
+    margin-right: 100px;
+    background-color: rgb(1, 98, 94);
+}
 .chart1{
     display:flex;
     flex: 0 0 50%; /* This will make the chart take up 45% of the available width */
@@ -43,4 +51,10 @@ flex: 0 0 50%; /* This will make the chart take up 45% of the available width */
   margin: 0;
   padding: 0;
   position:relative;
+}
+
+.mini-title{
+    font-size: 3vmin;
+    color:rgb(30, 30, 29);
+
 }

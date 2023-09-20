@@ -2,12 +2,13 @@
 import './MyBids.css'
 import Navbar_landing from '../component/Navbar_landing'
 import { CheckCookie } from './Landing';
-import React, { Component, useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { paintingsTitles } from './Highestbids';
+
   function MyBids() {
     let [mybids, setMybids] = useState([]);
     let [totalbids, setTotal] = useState('');
+    let [paintingsTitles, setPaintingTitles] = useState([]);
   
     useEffect(() => {
       axios
@@ -28,6 +29,27 @@ import { paintingsTitles } from './Highestbids';
           }
           setTotal(sum);
         });
+    }, []);
+
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get('http://localhost:8000/paintinginfo');
+          // Accessing the properties in the response
+          const titles = response.data.titles;
+          
+          // Update the state variables
+          setPaintingTitles(titles);
+  
+          // Set the number of paintings
+        } catch (error) {
+          // Handle any errors here
+          console.error("Error fetching data:", error);
+        }
+      };
+      
+      fetchData();
     }, []);
   
     return (
