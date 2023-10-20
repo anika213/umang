@@ -6,6 +6,7 @@ import Navbar_landing from '../component/Navbar_landing.js'
 import Navbar from '../component/Navbar'
 import { Navigate } from 'react-router-dom';
 import { Slide} from 'react-slideshow-image';
+import Chart from '../component/BiddersChart'
 import 'react-slideshow-image/dist/styles.css'
 import { Link } from "react-router-dom";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
@@ -117,7 +118,10 @@ function Landing()
                <br></br>
         <h>UMANG</h>
         <h3 class ="cookie">Welcome back {user_cookie}</h3>
-        <img src={pic1} class="landingpic"></img>
+        <div className='chartstyles'>
+      <Chart className="chartthing" height={'45vh'} width={'50vw'} chartId={'63b629c0-e76a-4b83-8a50-1144282f8f33'} chartURL={'https://charts.mongodb.com/charts-project-0-mqzzv'} />
+    </div>
+        
 
       
 {/* <Slide
@@ -158,7 +162,7 @@ function Landing()
     {
       return(
         <div>
-       <Navbar></Navbar>
+        <Navbar_landing />
          <br></br>
         <br></br>
         <br></br>

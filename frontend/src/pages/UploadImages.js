@@ -15,7 +15,8 @@ import { set } from 'mongoose';
 const MySwal = withReactContent(Swal);
 
  function UploadImages() {
-
+  const navigate = useNavigate();
+  
 
   async function resetAuction() {
     MySwal.fire({
@@ -33,20 +34,33 @@ const MySwal = withReactContent(Swal);
   
           const response = await axios.get('http://localhost:8000/resetauction');
           if (response.status === 200) {
-            MySwal.fire(
-              'Reset!',
-              'The auction has been reset.',
-              'success'
-            );
+            MySwal.fire({
+              title: 'Reset!',
+              text: 'The auction has been reset.',
+              icon: 'success',
+              buttonsStyling: false
+            });            
           }
+
+          var allCookies = document.cookie.split(';');
+          console.log(allCookies)
+          for (var i = 0; i < allCookies.length; i++) {
+            var cookie = allCookies[i];
+            var eqPos = cookie.indexOf('=');
+            var name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+          }
+
     
         } catch (error) {
           console.error("Error resetting the auction:", error);
-          MySwal.fire(
-            'Failed!',
-            'The auction could not be reset.',
-            'error'
-          );
+          MySwal.fire({
+            title: 'Error!!',
+            text: 'The auction could not be reset, please try again!',
+            icon: 'error',
+            buttonsStyling: false
+          });
+          
         }
       }
     });
@@ -102,6 +116,8 @@ const MySwal = withReactContent(Swal);
     
     fetchData();
   }, []);
+
+  
   // Define state to hold the uploaded image and modal visibility
   const [uploadedImage, setUploadedImage] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -175,6 +191,21 @@ async function handleRowClick(paintingNumber, paintingTitle) {
   });
 }
 
+
+
+if (admin === false) {
+  MySwal.fire({
+    title: <strong>You are not authorized to see this page</strong>,
+    background: 'white',
+    width: '50vmin',
+    confirmButtonText: 'OK',
+    buttonsStyling: false,
+  }).then(() => {
+    navigate('/login', { replace: true }); // Redirect to "/display" when OK is clicked
+  });
+
+  return null; // Return null since the content should not be displayed
+}
   return (
     <div>
       <Navbar_landing />

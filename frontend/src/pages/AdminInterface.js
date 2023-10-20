@@ -76,23 +76,6 @@ function Admin() {
   let [paintingsTitles, setPaintingTitles] = useState([]);
 
 
-
-  
-  
-  // if (admin === false) {
-  //   MySwal.fire({
-  //     title: <strong>You are not authorized to see this page</strong>,
-  //     background: 'white',
-  //     width: '50vmin',
-  //     confirmButtonText: 'OK',
-  //     buttonsStyling: false,
-  //   }).then(() => {
-  //     navigate('/login', { replace: true }); // Redirect to "/display" when OK is clicked
-  //   });
-
-  //   return null; // Return null since the content should not be displayed
-  // }
-
   // else{
 
 
@@ -120,6 +103,20 @@ function Admin() {
     fetchData();
   }, []);
 
+
+  if (admin === false) {
+    MySwal.fire({
+      title: <strong>You are not authorized to see this page</strong>,
+      background: 'white',
+      width: '50vmin',
+      confirmButtonText: 'OK',
+      buttonsStyling: false,
+    }).then(() => {
+      navigate('/login', { replace: true }); // Redirect to "/display" when OK is clicked
+    });
+
+    return null; // Return null since the content should not be displayed
+  }
     function handleDownloadClick() {
       console.log("in handle download click");
       axios.get("http://localhost:8000/allbids/biddinginfo")

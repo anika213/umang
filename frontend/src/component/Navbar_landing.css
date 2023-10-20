@@ -1,38 +1,40 @@
 :root {
-    --navBg: #0c0c0c;
-  }
-  
-  .navbar {
-    background-color: var(--navBg);
-    height: 60px;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-  }
-  
-  .menu-bars {
-    margin-left: 2rem;
-    font-size: 2rem;
-    background: none;
-  }
-  
-  .nav-menu {
-    background-color: var(--navBg);
-    width: 250px;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    position:absolute;
-    top: 0;
-    left: -100%;
-    transition: 850ms;
-  }
-  
-  .nav-menu.active {
-    left: 0;
-    transition: 350ms;
-  }
-  
+  --navBg: #0c0c0c;
+}
+
+.navbar {
+  background-color: var(--navBg);
+  height: 60px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  z-index: 9999;  /* Adding z-index property here */
+}
+
+.menu-bars {
+  margin-left: 2rem;
+  font-size: 2rem;
+  background: none;
+}
+
+.nav-menu {
+  background-color: var(--navBg);
+  width: 250px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  transition: 850ms;
+  z-index: 9999;  /* Adding z-index property here */
+}
+
+.nav-menu.active {
+  left: 0;
+  transition: 350ms;
+}
+
   .nav-text {
     display: flex;
     justify-content: start;

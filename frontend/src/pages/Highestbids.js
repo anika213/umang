@@ -9,7 +9,6 @@ import React, { useEffect, useState } from "react";
 import useInterval from 'use-interval'
 import axios from 'axios';
 import h1 from './Display';
-import LoadingScreen from '../component/Loading';
 
 //  const paintingsTitles = {
 //     painting19: "Journey by Sona Arora",
@@ -42,12 +41,13 @@ import LoadingScreen from '../component/Loading';
     useEffect(() => {
       // Show the loading popup
       Swal.fire({
-        title: 'Loading...',
-        html: '<div class="spinner"></div>', // Spinner CSS class is used
+        title: '<div>Loading...</div><div><br></br><img src="loading-icon.png"/></div>',
         showConfirmButton: false,
         allowOutsideClick: false,
         allowEscapeKey: false
       });
+      
+      
       
       // axios.get('http://localhost:8000/allbids/getallhighest')
       //   .then((response) => {

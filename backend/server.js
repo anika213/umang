@@ -15,6 +15,7 @@ const router = express.Router()
 
 
 const uri = process.env.MONGO_URI
+console.log(uri)
 const client = new MongoClient(uri);
 const database = client.db(process.env.DATABASE_NAME);
 const users = database.collection('users');
@@ -57,7 +58,12 @@ getHighestBid = async (artpiece) => {
 
 getMyBids = async (userName) => {
     var mybidsdata = await users.find({"username":userName}).toArray()
+    if(mybidsdata.length==0){
+      return([])
+    }
+    console.log(mybidsdata[0].userbids)
     return(mybidsdata[0].userbids);
+
 }
 
 

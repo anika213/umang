@@ -45,7 +45,7 @@ function About()
             The art competition Umang this year received around 70 submissions ranging from junior to high school, all of which is 
             displayed in the Main Plaza for viewing. The engagement with the exhibition has been remarkable, and we hope this event 
             can use art as a way to contribute to a better quality of life for street children in Jaipur whilst also highlighting the 
-            commendable artistic talent within our own UWC community.
+            commendable artistic talent within our own UWC community. Here's the NGO website if you want to find out more about them: https://www.i-indiaonline.com/
 
             </p>
 

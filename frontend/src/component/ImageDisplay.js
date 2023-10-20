@@ -1,6 +1,7 @@
 import classes from './ImageDisplay.css';
 import {  Container } from 'semantic-ui-react';
 import Swal from 'sweetalert2';
+import { CheckCookie } from '../pages/Landing';
 import { useState ,useEffect} from 'react';
 import withReactContent from 'sweetalert2-react-content';
 import axios from 'axios';  // You seem to use axios but haven't imported it
@@ -43,6 +44,17 @@ export default function ImageDisplay(props) {
 
   async function writeNote() { // Made it async since you use await inside
     console.log("write note");
+    if(CheckCookie("name")==false){ 
+      MySwal.fire({
+        title: <strong>Please login and try again!</strong>,
+        background: "white",
+        width: "35vmax",
+        confirmButtonText: 'OK',
+        buttonsStyling: false,
+
+      })
+      return false;
+    }
     if(isBiddingEnded === true){
       //alert the user that they cant log in because bidding is done
       MySwal.fire({

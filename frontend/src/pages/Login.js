@@ -1,5 +1,5 @@
 import classes from './Login.css';
-import Navbar from '../component/Navbar.js';
+import Navbar_Landing from '../component/Navbar_landing';
 import React, { useState, useEffect} from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -94,7 +94,7 @@ useEffect(() => {
       userpass: password,
     };
     console.log('real' + password);
-    //  emailjs.send("service_adnzlti","template_i1if82w",params,"e7AJH9FfOWzIXQQJm");
+     emailjs.send("service_adnzlti","template_i1if82w",params,"e7AJH9FfOWzIXQQJm");
   }
     // console.log('actual password:' + password);
   async function ValidateEmail(emailcheck, name) {
@@ -104,7 +104,7 @@ useEffect(() => {
       console.log('name' + name);
       SendEmail();
       const { value, dismiss } = await MySwal.fire({
-        title: <strong>We've just sent you a verification email with a password. Please enter your password here to proceed!</strong>,
+        title: <p>We've just sent you a verification email with a password. Please enter your password here to proceed!</p>,
         input: 'text',
         inputAttributes: {
           autocapitalize: 'off',
@@ -280,70 +280,25 @@ useEffect(() => {
 
   return (
     <div>
-      <Navbar />
-      <div className="card-container">
-        <h2 className="loginhead">Enter your login details:</h2>
-        <br />
-        <br />
-        <form className="everything">
-          <label>Name</label>
-          <input
-            className="input"
-            placeholder="Enter your full name"
-            type="text"
-            name="Name"
-            onChange={onChangeName}
-          />
-          <br />
-          <br />
-          <label>Email</label>
-          <input
-            className="input"
-            placeholder="Enter your email"
-            type="email"
-            name="Email"
-            onChange={onChangeEmail}
-          />
-          <br></br>
-          <br></br>
-          {/* {/* <br></br> */}
-          {/* <input
-    className="smallCheckbox"  // Apply the style here
-    type="checkbox"
-    id="anonymous"
-    name="anonymous"
-    value={isAnonymous}
-    onChange={toggleIsAnonymous}
-  />
-  <label className="checkboxLabel" htmlFor="anonymous">I wish to bid anonymously</label>
-  <br />
+            <Navbar_Landing />
 
-  <input
-    className="smallCheckbox"   // Apply the style here
-    type="checkbox"
-    id="noOutbidEmails"
-    name="noOutbidEmails"
-    value={noOutbidEmails}
-    onChange={toggleNoOutbidEmails}
-  />
-  <label className="checkboxLabel" htmlFor="noOutbidEmails">I don't want to recieve an email if I've been outbid </label> */}
-        </form>
-        <br />
-        <button className="button9" color="blue" onClick={submitHandler}>
-          Register
-        </button>
-      </div>
-      <br />
-      <br />
-      <br />
-      <p className="disclaimer">
-        <span className="redtext">NOTE:</span> By clicking Register you are agreeing that the UWCSEA I-India GC can
-        collect and use the personal information submitted for the purpose of running this fundraising event. All data
-        collected will be used in accordance with the UWCSEA Data Privacy and Collection Policy (available on the UWCSEA
-        website.)
-      </p>
+    <div className="login-container">
+
+        <div className="login-card">
+            <h2>Enter your login details:</h2>
+            <form className="login-form">
+                <input className='inputfields' type="text" placeholder="Enter your full name" onChange={onChangeName} />
+                <input className='inputfields' type="email" placeholder="Enter your email"  onChange={onChangeEmail}/>
+                <button type="submit" onClick={submitHandler} className='button9'>Register</button>
+            </form>
+            <div className="login-note">
+                NOTE: By clicking Register you are agreeing that the UWCSEA i-india GC can collect and use the personal information submitted for the purpose of running this fundraising event. All data collected will be used in accordance with the UWCSEA Data Privacy and Collection Policy (available on the UWCSEA website).
+            </div>
+        </div>
     </div>
-  );
+    </div>
+);
+
 }
 
 

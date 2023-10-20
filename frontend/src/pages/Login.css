@@ -1,182 +1,172 @@
 @import url('https://fonts.googleapis.com/css?family=Abel');
 
-body{
-    /* margin: 0;
-    background-color: rgb(153, 119, 119); */
-}
-h1{
-    font-size: 20px;
-    margin-left:0px;
-    font-family:"Abel";
-}
-
-
-form{
-    margin-left: 10px;
-
-    font-family:"Abel";
-    
-}
-
-
-.input{
-        width: 200px;
-        height: 45px;
-        background-color: rgb(255, 255, 255);
-        margin-left:7px;
-        border-width: 1px;
-        border-radius: 7px;
-
-}
-
-button{
-    background-color: rgb(1, 1, 119);
-    width: 100px;
-    height: 50px;
-    margin-left:20px;
-
-}
-
-img{
-    width:10px;
-    height: 20px;
-}
-
-
-
-
-
-body{
-    color:black;
+body {
     margin: 0;
-}
-
-.nav u1{
-    padding: 0;
-    list-style: none;
-    display: flex;
-    gap: 4rem;
-}
-
-a{
-
-    color: rgb(0, 0, 0);
-    text-decoration: none;
-
-}
-
-.loginhead{
-    font-family: 'Abel';
-    font-weight: "bolder";
-    font-size: 38px;
-    align-items: center;
-}
-
-Button{
-    margin-left:30px;
-    justify-content: center;
-    height:20px;
-    width: 60px;
-    background-color: rgb(106, 137, 232);
-    border:10px;
-    color:black;
     font-family: "Abel";
-    border-radius: 3px;
-    }
-
-label{
-
-    font-family:"Abel";
+    background-color: #f0f0f0;
 }
 
-.input{
-    font-family: 'Abel';
-
-}
-
-.everything{
-    justify-content: center;
-    align-items: center;
-    padding: 2px;
-}
-.disclaimer{
-
-    font-family:"Abel";
-    font-size: medium;
-    margin-left:10vmin;
-    margin-right:10vmin;
-}
-
-.redtext{
-    color:red;
-    font-size: medium;
-
-}
-.redtext1{
-    color:red;
-    font-size: medium;
-}
-
-
-.button9{
-    margin-left:30;
-        background-color: rgb(170, 202, 236);
-        width: 100px;
-        font-size:medium;
-        height: 50px;
-        margin-left:10px;
-    
-
-}
-
-
-.smallCheckbox {
-    width: 16px;
-    height: 16px;
-    vertical-align: middle;
-  }
-  
-  .checkboxLabel {
-    vertical-align: middle;
-    margin-left: 5px;
-  }
-.card-container {
+/* .card-container {
     background-color: white;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 50%;
-    height:50vh;
-    margin: 50px auto 20px; /* Added margin to the top */
-  }
-  
-  .everything {
-     /* Added margin to the top of the form */
-  }
-  
-  
-.swal2-confirm,
-.swal2-cancel {
-  height: 40px; /* Adjust the height to your desired value */
-  line-height: 40px; /* Center the text vertically within the button */
-  font-size: 18px; /* Adjust the font size as needed */
+    width:95vw;
+    max-width: 90vw;
+    margin: 50px auto 20px;
+    height: 40vw;
+} */
+
+.everything {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-.info{
+
+.inputGroup {
+    margin-top: -20px;
+    display: flex;
+    align-items: center;
+}
+
+.labels, label {
+    font-family: "Abel";
+    font-size: 130%;
+}
+
+.input {
+    width: 40vw;
+    max-width: 90vw;
+    height: 5vh;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-family: "Abel";
+    padding-left: 10px;
+    margin-top: 10px;
+}
+
+.button9 {
+    background-color: rgb(170, 202, 236);
+    width: 15vmin;
+    height: 10vmin;
+    text-align:center;
+    font-size: 2vmin;
+    margin-top: 20px;
+    border: none;
+    margin-right:30px;
+    border-radius: 7px;
+    font-family: "Abel";
+}
+
+h2.loginhead {
+    font-size:large;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+Button {
+    margin-left: 30px;
     justify-content: center;
-    margin-left:10vw;
-    margin-right:10vw;
-    font-size:medium;
-
-    color:rgb(189, 188, 185);
+    height: 150%;
+    width: 20%;
+    background-color: rgb(106, 137, 232);
+    border: none;
+    color: black;
+    text-align:center;
+    font-family: "Abel";
+    border-radius: 3px;
 }
 
-.large-cancel-button {
-    font-size: 20px; /* adjust as needed */
-    padding: 15px 24px; /* adjust as needed */
-  }
-  .toast-container-middle {
-    top: 50% !important;
-    left: 50% !important;
-    /* transform: translate(-50%, -50%); */
-  }
-  
+.disclaimer, .info {
+    font-size: medium;
+    text-align: center;
+    color: rgb(9, 62, 47);
+}
+
+.redtext, .redtext1 {
+    color: red;
+    font-size: medium;
+}
+
+@media (max-width: 768px) {
+    .card-container {
+        width: 90%;
+    }
+}
+
+.swal2-confirm, .swal2-cancel {
+    height: 40px;
+    width:50px;
+    line-height: 40px;
+    font-size: small;
+    text-align: center;
+    font-family: "Abel";
+    border-radius: 4px;
+    margin-left: 10px;
+    background-color: rgb(190, 218, 225);
+}
+
+.inputfields{
+
+
+    height:20%;
+    width:50vmin;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-card {
+    background: white;
+    width: 80vmin;
+    max-width: 70vw;
+    padding: 2rem;
+    height:60vh;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    align-items: center;
+}
+
+input {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: "Abel";
+}
+
+/* button {
+    padding: 0.75rem 1rem;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+} */
+
+button:hover {
+    background-color: #357ab6;
+    text-align: center;
+}
+
+.login-note {
+    margin-top: 1rem;
+    font-size: 2vmin;
+    color: #555;
+}

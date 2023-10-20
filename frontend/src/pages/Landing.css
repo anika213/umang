@@ -22,6 +22,10 @@
     gap: 4rem;
 }
 
+.chartthing{
+    z-index: -10;
+    position: relative;
+}
 a{
     color: rgb(35, 4, 4);
     text-decoration: none;
@@ -76,12 +80,40 @@ p{
         background-color: rgb(170, 202, 236);
         width: 100px;
         font-size:medium;
+        color:black;
         height: 50px;
+        border:none;
         margin-left:10px;
+        border-radius: 4px;
     
 }
 
+/* General styling */
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Specific styling for the chart */
 
+  
+  /* Responsive design: Mobile orientation */
+  @media (max-width: 768px) {
+    .chart {
+      width: 100%;
+      height: auto;
+    }
+  }
+  
+  /* Responsive design: Tablet and above */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .chart {
+      width: 70%;
+      height: auto;
+    }
+  }
+  
 .para{
 
             font-family:"Abel";
@@ -148,4 +180,6 @@ p{
     color: #ffffff;
   }
   
-  
+  .chartstyles{
+    margin-left:25%
+  }
