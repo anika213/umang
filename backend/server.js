@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 
-const { RateLimiterMemory } = require('rate-limiter-flexible');
+// const { RateLimiterMemory } = require('rate-limiter-flexible');
 const { MongoClient, GridFSBucket, ObjectId } = require("mongodb");
 require('dotenv').config();
 const mongoose = require("mongoose");
