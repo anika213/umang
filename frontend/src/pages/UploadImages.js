@@ -16,7 +16,7 @@ const MySwal = withReactContent(Swal);
 
  function UploadImages() {
   const navigate = useNavigate();
-  
+
 
   async function resetAuction() {
     MySwal.fire({
