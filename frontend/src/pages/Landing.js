@@ -9,7 +9,6 @@ import { Slide} from 'react-slideshow-image';
 import Chart from '../component/BiddersChart'
 import 'react-slideshow-image/dist/styles.css'
 import { Link } from "react-router-dom";
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 import React, { useState, useEffect } from "react";
 import pic1 from "../Artpics/Landingpic_7.png"
