@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 
-const { RateLimiterMemory } = require('rate-limiter-flexible');
+// const { RateLimiterMemory } = require('rate-limiter-flexible');
 const { MongoClient, GridFSBucket, ObjectId } = require("mongodb");
 require('dotenv').config();
 const mongoose = require("mongoose");
@@ -238,6 +238,11 @@ app.put("/admin/loadinfo", async (req, res) => {
 });
 
 
+app.get('/test', (req, res) => {
+  res.send('Hello, world!');
+});
+
+
 
 app.put("/users/logininfo",  async (req, res) => {
 
@@ -362,6 +367,7 @@ app.put("/allbids/placebid", async (req, res) => {
 
 
 app.get("/allbids/biddinginfo", async (req, res) => {
+    console.log("in /biddinginfo");
     const data = await getAllBiddinginfo()
     res.json(data)
   })

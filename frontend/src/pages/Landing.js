@@ -4,6 +4,7 @@ import { BrowserRouter, Route, useNavigate } from "react-router-dom";
 import Navbar_landing from '../component/Navbar_landing.js'
 import Chart from '../component/BiddersChart'
 import 'react-slideshow-image/dist/styles.css'
+import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import pic1 from "../Artpics/Landingpic_7.png"
 import pic2 from "../Artpics/Landingpic_1.png"
