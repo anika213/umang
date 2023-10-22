@@ -230,6 +230,11 @@ app.put("/admin/loadinfo", async (req, res) => {
 });
 
 
+app.get('/test', (req, res) => {
+  res.send('Hello, world!');
+});
+
+
 
 app.put("/users/logininfo",  async (req, res) => {
 
