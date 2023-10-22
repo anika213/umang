@@ -359,6 +359,7 @@ app.put("/allbids/placebid", async (req, res) => {
 
 
 app.get("/allbids/biddinginfo", async (req, res) => {
+    console.log("in /biddinginfo");
     const data = await getAllBiddinginfo()
     res.json(data)
   })
