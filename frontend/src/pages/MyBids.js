@@ -54,7 +54,7 @@ import axios from 'axios'
   
     return (
       <div>
-
+        <Navbar_landing></Navbar_landing>
 
         <h1>MY BIDS</h1>
         <table>
