@@ -26,14 +26,14 @@ const imagefiles = database.collection('images.files');
 
 const bodyParser = require('body-parser');
 
-const corsOptions = {
-  origin: 'http://localhost:3000', // Allow requests from this origin
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allow these HTTP methods
-  credentials: true, // Allow sending cookies and other credentials
-  optionsSuccessStatus: 204, // Set the response status for successful OPTIONS requests
-};
+// const corsOptions = {
+//   origin: 'http://localhost:3000', // Allow requests from this origin
+//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allow these HTTP methods
+//   credentials: true, // Allow sending cookies and other credentials
+//   optionsSuccessStatus: 204, // Set the response status for successful OPTIONS requests
+// };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 
 app.use(bodyParser.json({ limit: '30mb' }));
@@ -83,7 +83,7 @@ getimages = async (paintingnumber) => {
     // Check if painting exists and has an image field
     if (painting && painting.image) {
       // Return the URL to access the image
-      return `http://localhost:8080/image/${painting.image}`;
+      return `https://frontend-umang-ttltu.ondigitalocean.app/image/${painting.image}`;
     } else {
       console.log(`Painting with number ${paintingnumber} not found or doesn't have an image.`);
       return null;
