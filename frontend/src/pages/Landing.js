@@ -1,28 +1,20 @@
 
 import classes from './Landing.css'
-import Title_pic from '../Artpics/title_pic.png'
 import { BrowserRouter, Route, useNavigate } from "react-router-dom";
 import Navbar_landing from '../component/Navbar_landing.js'
-import Navbar from '../component/Navbar'
-import { Navigate } from 'react-router-dom';
-import { Slide} from 'react-slideshow-image';
 import Chart from '../component/BiddersChart'
 import 'react-slideshow-image/dist/styles.css'
-import { Link } from "react-router-dom";
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
-
 import React, { useState, useEffect } from "react";
 import pic1 from "../Artpics/Landingpic_7.png"
 import pic2 from "../Artpics/Landingpic_1.png"
 import pic3 from "../Artpics/Landingpic_4.png"
 import axios from 'axios'
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 let user_email;
 let user_cookie;
 
 const fetchUsers = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/users');
+    const response = await axios.get('https://frontend-umang-ttltu.ondigitalocean.app/users');
     // console.log(response.data[0].username);
     return Promise.resolve(response.data[0].username);
   } catch (error) {

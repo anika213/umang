@@ -26,6 +26,16 @@ const imagefiles = database.collection('images.files');
 
 const bodyParser = require('body-parser');
 
+const corsOptions = {
+  origin: 'http://localhost:3000', // Allow requests from this origin
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allow these HTTP methods
+  credentials: true, // Allow sending cookies and other credentials
+  optionsSuccessStatus: 204, // Set the response status for successful OPTIONS requests
+};
+
+app.use(cors(corsOptions));
+
+
 app.use(bodyParser.json({ limit: '30mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 async function connection(){
@@ -182,9 +192,7 @@ resetAuction = async () => {
     return [highestbidsdata, highestbiddersnames, highestbiddersemails, notes];
   }
   
-
-
-app.use(cors());
+ 
 app.use(express.json());
 
 
@@ -332,14 +340,14 @@ app.put("/allbids/placebid", async (req, res) => {
 
     if (bidvalue > data[0].highestBid.bidvalue) {
         userLastBidTime[name] = currentTime;
-        axios.put('http://localhost:8000/allbids/bidplaced',  
+        axios.put('https://frontend-umang-ttltu.ondigitalocean.app/allbids/bidplaced',  
         { name, bidvalue, paintingnumber,highestBidderEmail })  
         .then((data) => {
             console.log("bidplaced"); 
             res.status(200).send(highestBidderEmail);
         })
 
-        axios.put('http://localhost:8000/allbids/mybids',  
+        axios.put('https://frontend-umang-ttltu.ondigitalocean.app/allbids/mybids',  
         { name, bidvalue, paintingnumber })
         .then((data) => {
             console.log("mybids")
@@ -595,7 +603,7 @@ app.get('/admin/endbidding', async (req, res) => {
       paintingsMediums[paintingName] = paintingInfo.medium || 'N/A';
       paintingsSizes[paintingName] = paintingInfo.size || 'N/A';
       paintingsHighestBids[paintingName] = paintingInfo.highestBid ? paintingInfo.highestBid.bidvalue : 'N/A';
-      imageUrls[paintingName] = `http://localhost:8000/image?paintingnumber=${paintingName}`;
+      imageUrls[paintingName] = `https://frontend-umang-ttltu.ondigitalocean.app/image?paintingnumber=${paintingName}`;
     });
     console.log(imageUrls)  
     res.status(200).json({

@@ -12,7 +12,7 @@ import axios from 'axios'
   
     useEffect(() => {
       axios
-        .get(`http://localhost:8000/mybids`, {
+        .get(`https://frontend-umang-ttltu.ondigitalocean.app/mybids`, {
           params: {
             name: CheckCookie('name'),
           },
@@ -35,7 +35,7 @@ import axios from 'axios'
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await axios.get('http://localhost:8000/paintinginfo');
+          const response = await axios.get('https://frontend-umang-ttltu.ondigitalocean.app/paintinginfo');
           // Accessing the properties in the response
           const titles = response.data.titles;
           
@@ -54,7 +54,8 @@ import axios from 'axios'
   
     return (
       <div>
-        <Navbar_landing />
+
+
         <h1>MY BIDS</h1>
         <table>
           <thead>

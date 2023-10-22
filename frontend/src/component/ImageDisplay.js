@@ -92,7 +92,7 @@ export default function ImageDisplay(props) {
       const paintingnumber = "painting" + props.image[21];
       
       try {
-        const val = await axios.put('http://localhost:8000/paintings/writenote', { note, paintingnumber });
+        const val = await axios.put('https://frontend-umang-ttltu.ondigitalocean.app/paintings/writenote', { note, paintingnumber });
         
         if (val.status === 200) {
           MySwal.fire({
