@@ -291,79 +291,67 @@ app.listen(8000, () => {
   });
 
  
-  app.put("/allbids/bidplaced", async (req, res) => {
-    try{
-        const {name,bidvalue,paintingnumber} = req.body
-        updatedVal = {
-            "bidder":name,
-            "bidvalue":bidvalue
-        }
-        paintings.updateOne(
-            {"painting":paintingnumber},
-            {$set:{
-            "highestBid":updatedVal}},
-            {
-              upsert:true
-            }
-         )
+// Helper function to update the highest bid
+const updateHighestBid = async (paintingnumber, name, bidvalue) => {
+    const updatedVal = {
+        "bidder": name,
+        "bidvalue": bidvalue
+    };
+    return paintings.updateOne(
+        {"painting": paintingnumber},
+        {$set: {"highestBid": updatedVal}},
+        {upsert: true}
+    );
+};
 
-         paintingbids.updateOne(
-          {"painting":paintingnumber},
-          {$push:{
-          "bids":updatedVal}},
-          {
-            upsert:true
-          }
-       )
+// Helper function to update the bid history for a painting
+const updateBidHistory = async (paintingnumber, name, bidvalue) => {
+    const updatedVal = {
+        "bidder": name,
+        "bidvalue": bidvalue
+    };
+    return paintingbids.updateOne(
+        {"painting": paintingnumber},
+        {$push: {"bids": updatedVal}},
+        {upsert: true}
+    );
+};
 
-        res.send({status:"ok"})
-    }
-    catch(error){
-        res.send({status:"error"})
+app.put("/allbids/bidplaced", async (req, res) => {
+    try {
+        const {name, bidvalue, paintingnumber} = req.body;
+        await updateHighestBid(paintingnumber, name, bidvalue);
+        await updateBidHistory(paintingnumber, name, bidvalue);
+        res.send({status: "ok"});
+    } catch (error) {
+        res.send({status: "error"});
         console.log(error);
-
     }
-    
-})
-
+});
 
 let userLastBidTime = {};
 
 app.put("/allbids/placebid", async (req, res) => {
-    const { paintingnumber, name, bidvalue } = req.body;
-    console.log(paintingnumber, name, bidvalue);
+    const {paintingnumber, name, bidvalue} = req.body;
     const data = await getHighestBid(paintingnumber);
     const highestBidder = data[0].highestBid.bidder;
-    const highestBidderEmail = await users.find({"username":highestBidder}).toArray()
-    console.log(highestBidderEmail[0].useremail)
+    const highestBidderEmail = await users.find({"username": highestBidder}).toArray();
     const currentTime = new Date();
+
     if (userLastBidTime[name] && ((currentTime - userLastBidTime[name]) / 1000) < 10) {
-        console.log("error: bid too soon"); 
-        res.status(200).send("time"); // alert on frontend
+        res.status(200).send("time");
         return;
     }
 
     if (bidvalue > data[0].highestBid.bidvalue) {
         userLastBidTime[name] = currentTime;
-        axios.put('https://umang-react-usz25.ondigitalocean.app/allbids/bidplaced',  
-        { name, bidvalue, paintingnumber,highestBidderEmail })  
-        .then((data) => {
-            console.log("bidplaced"); 
-            res.status(200).send(highestBidderEmail);
-        })
-
-        axios.put('https://umang-react-usz25.ondigitalocean.app/allbids/mybids',  
-        { name, bidvalue, paintingnumber })
-        .then((data) => {
-            console.log("mybids")
-        })
+        await updateHighestBid(paintingnumber, name, bidvalue);
+        await updateBidHistory(paintingnumber, name, bidvalue);
+        res.status(200).send(highestBidderEmail);
     } else {
-        console.log("error: bid not greater"); 
-        res.status(200).send("value"); // alert on frontend
+        res.status(200).send("value");
     }
 });
-
-
 
 
 app.get("/allbids/biddinginfo", async (req, res) => {
