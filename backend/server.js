@@ -345,14 +345,14 @@ app.put("/allbids/placebid", async (req, res) => {
 
     if (bidvalue > data[0].highestBid.bidvalue) {
         userLastBidTime[name] = currentTime;
-        axios.put('https://frontend-umang-ttltu.ondigitalocean.app/allbids/bidplaced',  
+        axios.put('https://umang-react-usz25.ondigitalocean.app/allbids/bidplaced',  
         { name, bidvalue, paintingnumber,highestBidderEmail })  
         .then((data) => {
             console.log("bidplaced"); 
             res.status(200).send(highestBidderEmail);
         })
 
-        axios.put('https://frontend-umang-ttltu.ondigitalocean.app/allbids/mybids',  
+        axios.put('https://umang-react-usz25.ondigitalocean.app/allbids/mybids',  
         { name, bidvalue, paintingnumber })
         .then((data) => {
             console.log("mybids")
@@ -609,7 +609,7 @@ app.get('/admin/endbidding', async (req, res) => {
       paintingsMediums[paintingName] = paintingInfo.medium || 'N/A';
       paintingsSizes[paintingName] = paintingInfo.size || 'N/A';
       paintingsHighestBids[paintingName] = paintingInfo.highestBid ? paintingInfo.highestBid.bidvalue : 'N/A';
-      imageUrls[paintingName] = `https://frontend-umang-ttltu.ondigitalocean.app/image?paintingnumber=${paintingName}`;
+      imageUrls[paintingName] = `https://umang-react-usz25.ondigitalocean.app/image?paintingnumber=${paintingName}`;
     });
     console.log(imageUrls)  
     res.status(200).json({

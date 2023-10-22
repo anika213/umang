@@ -70,7 +70,7 @@ async function bid(art_number){
   
   bidvalue = parseInt(bidvalue);
   var name = CheckCookie("name");
-  await axios.put('https://frontend-umang-ttltu.ondigitalocean.app/allbids/placebid',{paintingnumber,name,bidvalue})
+  await axios.put('https://umang-react-usz25.ondigitalocean.app/allbids/placebid',{paintingnumber,name,bidvalue})
   .then(async (val)=>{
           console.log(val,"cookie sent");
           // console.log(val.data);
@@ -108,7 +108,7 @@ async function bid(art_number){
           }
       }
       try {
-        const response = await axios.get('https://frontend-umang-ttltu.ondigitalocean.app/paintinginfo');
+        const response = await axios.get('https://umang-react-usz25.ondigitalocean.app/paintinginfo');
         if (response.data && response.data.highestBids) {
           setHighestBidsValues(response.data.highestBids);
         }
@@ -169,7 +169,7 @@ function alert(paintingnumber){
   //       for (let i = 1; i <= numberOfPaintings; i++) {
   //         const paintingNumber = `painting${i}`;
   //         requests.push(
-  //           axios.get(`https://frontend-umang-ttltu.ondigitalocean.app/image`, {
+  //           axios.get(`https://umang-react-usz25.ondigitalocean.app/image`, {
   //             params: { paintingnumber: paintingNumber },
   //           })
   //         );
@@ -180,7 +180,7 @@ function alert(paintingnumber){
         
   //       responses.forEach((response, index) => {
   //         const paintingNumber = `painting${index + 1}`;
-  //         imageUrls[paintingNumber] = `https://frontend-umang-ttltu.ondigitalocean.app/image?paintingnumber=${paintingNumber}`;
+  //         imageUrls[paintingNumber] = `https://umang-react-usz25.ondigitalocean.app/image?paintingnumber=${paintingNumber}`;
   //       });
   
   //       setImages(imageUrls);
@@ -201,7 +201,7 @@ function alert(paintingnumber){
 useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://frontend-umang-ttltu.ondigitalocean.app/paintinginfo');
+      const response = await axios.get('https://umang-react-usz25.ondigitalocean.app/paintinginfo');
       // Accessing the properties in the response
       const titles = response.data.titles;
       const sizes = response.data.sizes;
