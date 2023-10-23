@@ -43,6 +43,19 @@ async function connection(){
         // Connect to the mongo cluster
         await client.connect();
         console.log("connected to MONGOdb")
+
+        const minBidUser = await users.findOne({ "username": "Minimum Bid" });
+        if (!minBidUser) {
+            await users.insertOne({
+                "username": "Minimum Bid",
+                "useremail": "minbid@gmail.com",
+                "userbids": []
+            });
+            console.log("Minimum Bid document has been added.");
+        } else {
+            console.log("Minimum Bid document already exists.");
+        }
+
        
     } catch (e) {
         console.error(e);
@@ -94,7 +107,7 @@ getimages = async (paintingnumber) => {
 getAllHighestBidders = async () => {
     let allinfo = await paintings.find({}, { "_id": 0, "painting": 1 }).toArray();
     var highestBidsData = {};
-  
+    console.log("allinfo"+allinfo)
     for (var i = 0; i < allinfo.length; i++) {
       const number = allinfo[i].painting.toString();
       highestBidsData[number] = allinfo[i].highestBid.bidder;
@@ -291,67 +304,79 @@ app.listen(8000, () => {
   });
 
  
-// Helper function to update the highest bid
-const updateHighestBid = async (paintingnumber, name, bidvalue) => {
-    const updatedVal = {
-        "bidder": name,
-        "bidvalue": bidvalue
-    };
-    return paintings.updateOne(
-        {"painting": paintingnumber},
-        {$set: {"highestBid": updatedVal}},
-        {upsert: true}
-    );
-};
+  app.put("/allbids/bidplaced", async (req, res) => {
+    try{
+        const {name,bidvalue,paintingnumber} = req.body
+        updatedVal = {
+            "bidder":name,
+            "bidvalue":bidvalue
+        }
+        paintings.updateOne(
+            {"painting":paintingnumber},
+            {$set:{
+            "highestBid":updatedVal}},
+            {
+              upsert:true
+            }
+         )
 
-// Helper function to update the bid history for a painting
-const updateBidHistory = async (paintingnumber, name, bidvalue) => {
-    const updatedVal = {
-        "bidder": name,
-        "bidvalue": bidvalue
-    };
-    return paintingbids.updateOne(
-        {"painting": paintingnumber},
-        {$push: {"bids": updatedVal}},
-        {upsert: true}
-    );
-};
+         paintingbids.updateOne(
+          {"painting":paintingnumber},
+          {$push:{
+          "bids":updatedVal}},
+          {
+            upsert:true
+          }
+       )
 
-app.put("/allbids/bidplaced", async (req, res) => {
-    try {
-        const {name, bidvalue, paintingnumber} = req.body;
-        await updateHighestBid(paintingnumber, name, bidvalue);
-        await updateBidHistory(paintingnumber, name, bidvalue);
-        res.send({status: "ok"});
-    } catch (error) {
-        res.send({status: "error"});
-        console.log(error);
+        res.send({status:"ok"})
     }
-});
+    catch(error){
+        res.send({status:"error"})
+        console.log(error);
+
+    }
+    
+})
+
 
 let userLastBidTime = {};
 
 app.put("/allbids/placebid", async (req, res) => {
-    const {paintingnumber, name, bidvalue} = req.body;
+    const { paintingnumber, name, bidvalue } = req.body;
+    console.log(paintingnumber, name, bidvalue);
     const data = await getHighestBid(paintingnumber);
     const highestBidder = data[0].highestBid.bidder;
-    const highestBidderEmail = await users.find({"username": highestBidder}).toArray();
+    const highestBidderEmail = await users.find({"username":highestBidder}).toArray()
+    console.log(highestBidderEmail[0].useremail)
     const currentTime = new Date();
-
     if (userLastBidTime[name] && ((currentTime - userLastBidTime[name]) / 1000) < 10) {
-        res.status(200).send("time");
+        console.log("error: bid too soon"); 
+        res.status(200).send("time"); // alert on frontend
         return;
     }
 
     if (bidvalue > data[0].highestBid.bidvalue) {
         userLastBidTime[name] = currentTime;
-        await updateHighestBid(paintingnumber, name, bidvalue);
-        await updateBidHistory(paintingnumber, name, bidvalue);
-        res.status(200).send(highestBidderEmail);
+        axios.put('https://umang-react-usz25.ondigitalocean.app/allbids/bidplaced',  
+        { name, bidvalue, paintingnumber,highestBidderEmail })  
+        .then((data) => {
+            console.log("bidplaced"); 
+            res.status(200).send(highestBidderEmail);
+        })
+
+        axios.put('https://umang-react-usz25.ondigitalocean.app/allbids/mybids',  
+        { name, bidvalue, paintingnumber })
+        .then((data) => {
+            console.log("mybids")
+        })
     } else {
-        res.status(200).send("value");
+        console.log("error: bid not greater"); 
+        res.status(200).send("value"); // alert on frontend
     }
 });
+
+
 
 
 app.get("/allbids/biddinginfo", async (req, res) => {
