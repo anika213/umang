@@ -110,6 +110,7 @@ getAllHighestBidders = async () => {
     console.log("allinfo"+allinfo)
     for (var i = 0; i < allinfo.length; i++) {
       const number = allinfo[i].painting.toString();
+    console.log(allinfo[i].highestBid)
       highestBidsData[number] = allinfo[i].highestBid.bidder;
     }
   
