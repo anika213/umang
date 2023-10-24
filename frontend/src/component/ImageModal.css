@@ -112,6 +112,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  overflow-y: auto; /* add this */
+  max-height: calc(100vh - 50px); /* add this, adjust the 50px */
 }
 
 .modal-image {
