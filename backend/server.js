@@ -219,7 +219,8 @@ app.get("/users", async (req, res) => {
 
 app.put("/paintings/writenote", async (req, res) => {
    const{note,paintingnumber} = req.body;
-    console.log(note)
+    console.log("IN WRITENOTE");
+    console.log(note,paintingnumber);
     var check = await addWriteNote(note,paintingnumber)
     if(check==true)
         res.send({status:"OK"})
