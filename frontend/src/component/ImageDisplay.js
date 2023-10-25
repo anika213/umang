@@ -89,10 +89,12 @@ export default function ImageDisplay(props) {
       console.log('User input:', text);
       const note = text;  // 'note' is now defined as the user input
       console.log(note);
-      const paintingnumber = "painting" + props.image[21];
+      let x = props.image.toString();
+      let number = x.charAt(x.length - 1)
+      const paintingnumber = "painting" +number;
       
       try {
-        const val = await axios.put('https://umang-react-usz25.ondigitalocean.app/paintings/writenote', { note, paintingnumber });
+        const val = await axios.put('http://localhost:8000/paintings/writenote', { note, paintingnumber });
         
         if (val.status === 200) {
           MySwal.fire({
