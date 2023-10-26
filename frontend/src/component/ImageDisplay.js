@@ -92,6 +92,7 @@ export default function ImageDisplay(props) {
       let x = props.image.toString();
       let number = x.charAt(x.length - 1)
       const paintingnumber = "painting" +number;
+      console.log(paintingnumber)
       
       try {
         const val = await axios.put('http://localhost:8000/paintings/writenote', { note, paintingnumber });
