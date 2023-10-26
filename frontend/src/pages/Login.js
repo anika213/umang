@@ -226,7 +226,7 @@ useEffect(() => {
     console.log("isended"+isBiddingEnded)
   
     console.log(name, email); // input from user
-    if(isBiddingEnded === true){
+    if(isBiddingEnded === true  && name !== 'admin'){
       //alert the user that they cant log in because bidding is done
       MySwal.fire({
         title: <strong>Sorry, You can't log on to bid, the Bidding has ended!</strong>,
