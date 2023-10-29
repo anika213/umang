@@ -54,10 +54,10 @@ function About()
 
       
         <h1>About the Auction</h1>
-        <p class="abouttext"> This is the second occurance of the Umang Auction, which aims to raise funds for the i-india NGO by also highlighting 
-        the exceptional talent within both the parent and student art community at the school. The auction takes high quality pieces of artwork and opens up bidding to 
-        teachers and parents of UWC. By connecting the pieces of artwork to the three themes - Memories, Heritage, and Discovery, we aim to unite 
-        these diverse mediums and forms of art to celebrate the artistic achievements of the artists as well as raise funds for our NGO.
+        <p class="abouttext"> The Umang Auction aims to raise funds for the i-India NGO, while 
+     highlighting the exceptional talent within both the parent and student art community at the school. 
+High-quality pieces of artwork are open for bidding to teachers, parents and other UWC community members. 
+By connecting the pieces of artwork to the three themes (Change, Hope and Fantasy) we aim to unite diverse mediums and forms of art to celebrate the artistic achievements of the artists and raise funds for our NGO.
 
             </p>
        <img src={About_5} class="about5"></img>
