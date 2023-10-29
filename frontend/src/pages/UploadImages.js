@@ -17,29 +17,32 @@ const MySwal = withReactContent(Swal);
  function UploadImages() {
   const navigate = useNavigate();
   
-
   async function resetAuction() {
     MySwal.fire({
-      title: 'Are you sure?',
-      text: 'Do you really want to reset the auction? This action is irreversible.',
-      icon: 'warning',
+      title: 'Enter Password',
+      input: 'password',
+      inputPlaceholder: 'Enter your password',
+      inputAttributes: {
+        autocapitalize: 'off',
+        autocorrect: 'off'
+      },
       showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'No',
+      confirmButtonText: 'Submit',
+      cancelButtonText: 'Cancel',
       buttonsStyling: false,
     }).then(async (result) => {
       if (result.isConfirmed) {
+        const password = result.value;
+        console.log(password)
         try {
-
-  
-          const response = await axios.get('https://umang-react-usz25.ondigitalocean.app/resetauction');
+          const response = await axios.get(`https://umang-react-usz25.ondigitalocean.app/admin/resetauction?password=${password}`);
           if (response.status === 200) {
             MySwal.fire({
               title: 'Reset!',
               text: 'The auction has been reset.',
               icon: 'success',
               buttonsStyling: false
-            });            
+            });
           }
 
           var allCookies = document.cookie.split(';');
