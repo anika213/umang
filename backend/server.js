@@ -8,8 +8,6 @@ const mongoose = require("mongoose");
 const stream = require('stream');
 
 const axios= require("axios");
-const { getApp } = require('firebase-admin/app');
-const { reset } = require('nodemon');
 const app = express();
 const router = express.Router()
 
@@ -25,14 +23,6 @@ const imagechunks = database.collection('images.chunks');
 const imagefiles = database.collection('images.files');
 
 const bodyParser = require('body-parser');
-
-// const corsOptions = {
-//   origin: 'http://localhost:3000', // Allow requests from this origin
-//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allow these HTTP methods
-//   credentials: true, // Allow sending cookies and other credentials
-//   optionsSuccessStatus: 204, // Set the response status for successful OPTIONS requests
-// };
-
 app.use(cors());
 
 
@@ -110,7 +100,7 @@ getAllHighestBidders = async () => {
     console.log("allinfo"+allinfo)
     for (var i = 0; i < allinfo.length; i++) {
       const number = allinfo[i].painting.toString();
-    console.log(allinfo[i].highestBid)
+      console.log(allinfo[i].highestBid)
       highestBidsData[number] = allinfo[i].highestBid.bidder;
     }
   
@@ -219,8 +209,7 @@ app.get("/users", async (req, res) => {
 
 app.put("/paintings/writenote", async (req, res) => {
    const{note,paintingnumber} = req.body;
-    console.log("IN WRITENOTE");
-    console.log(note,paintingnumber);
+    console.log(note)
     var check = await addWriteNote(note,paintingnumber)
     if(check==true)
         res.send({status:"OK"})
@@ -433,10 +422,21 @@ app.get("/mybids", async (req, res) => {
     res.json(docs) 
 })
 
-app.get("/resetauction", async (req, res) => {
- resetAuction();
- res.status(200).send("ok");
-})
+app.get('/admin/resetauction', async (req, res) => {
+  const password = req.query.password; // assume the password is sent as a query parameter
+  console.log("HELLO")
+  if (password === process.env.ADMIN_PASS) { // Replace 'yourExpectedPassword' with the actual expected password
+    try {
+      await resetAuction(); // your existing function to reset the auction
+      res.status(200).send('Auction reset');
+    } catch (error) {
+      res.status(500).send('Error resetting auction');
+    }
+  } else {
+    res.status(401).send('Unauthorized');
+  }
+});
+
 
 app.get("/image/:id", async (req, res) => {
   try {
