@@ -24,7 +24,7 @@ function setCookie(cname, cvalue, exdays) {
 
  async function checkIfBiddingDone() {
   const response = await axios.get('https://umang-react-usz25.ondigitalocean.app/checkifbiddingdone');
-  console.log(response.data);
+  // console.log(response.data);
   if (response.data.status === true) {
     return true;
   }
@@ -63,7 +63,7 @@ useEffect(() => {
   };
 
   async function Verifyemail(userpassword) {
-    console.log(userpassword, password);
+    // console.log(userpassword, password);
     if (String(userpassword) === String(password)) {
       return true;
     } else {
@@ -93,7 +93,7 @@ useEffect(() => {
       email: email,
       userpass: password,
     };
-    console.log('real' + password);
+    // console.log('real' + password);
      emailjs.send("service_adnzlti","template_i1if82w",params,"e7AJH9FfOWzIXQQJm");
   }
     // console.log('actual password:' + password);
@@ -128,11 +128,11 @@ useEffect(() => {
       }
 
       userpassword = String(value);
-      console.log('value' + value);
+      // console.log('value' + value);
 
       if (await Verifyemail(userpassword) === true) {
-        console.log('email verified');
-        console.log('name' + name);
+        // console.log('email verified');
+        // console.log('name' + name);
         return true;
 
       } else {
@@ -157,14 +157,14 @@ useEffect(() => {
     setCookie('username', name, 365);
     // console.log('in checkrepeat');
     await axios.get('https://umang-react-usz25.ondigitalocean.app/users').then(function (response) {
-      console.log(response.data);
+      // console.log(response.data);
       userdata = response.data;
     });
 
     var i = 0;
     console.log(userdata);
     while (i < userdata.length) {
-      console.log(userdata[i].useremail);
+      // console.log(userdata[i].useremail);
       if (email === userdata[i].useremail) {
         MySwal.fire({
           title: <strong>Welcome back {name} you're already registered</strong>,
@@ -225,7 +225,7 @@ useEffect(() => {
     e.preventDefault();
     console.log("isended"+isBiddingEnded)
   
-    console.log(name, email); // input from user
+    // console.log(name, email); // input from user
     if(isBiddingEnded === true  && name !== 'admin'){
       //alert the user that they cant log in because bidding is done
       MySwal.fire({
