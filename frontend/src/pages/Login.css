@@ -96,16 +96,26 @@ Button {
 }
 
 .swal2-confirm, .swal2-cancel {
-    height: 40px;
-    width:50px;
-    line-height: 40px;
-    font-size: small;
-    text-align: center;
-    font-family: "Abel";
-    border-radius: 4px;
-    margin-left: 10px;
-    background-color: rgb(190, 218, 225);
+  height: 40px;
+  width: 50px;
+  line-height: 40px;
+  font-size: small;
+  text-align: center;
+  font-family: "Abel";
+  border-radius: 4px;
+  margin-left: 10px;
 }
+
+/* Specific style for the Cancel button */
+.swal2-cancel {
+  background-color: rgb(190, 218, 225); /* You can change this */
+}
+
+/* Specific style for the Confirm (Submit) button */
+.swal2-confirm {
+  background-color: rgb(193, 225, 190); /* You can change this */
+}
+
 
 .inputfields{
 
