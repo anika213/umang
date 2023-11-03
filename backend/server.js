@@ -451,7 +451,7 @@ app.get("/image/:id", async (req, res) => {
 
 app.put("/admin/addpainting", async (req, res) => {
   try {
-    const { title, artist, description, medium, minBid, styling, image, paintingnum } = req.body;
+    const { title, artist, description, medium, minBid, styling, theme, size, image, paintingnum } = req.body;
 
     // Create HighestBid object
     const HighestBid = {
@@ -476,7 +476,9 @@ app.put("/admin/addpainting", async (req, res) => {
           "title": accTitle,
           "description": description,
           "medium": medium,
-          "size": styling
+          "size":size,
+          "theme":theme,
+          "style": styling
         }}
       );
       // Add code here to update the image if needed
@@ -501,7 +503,9 @@ app.put("/admin/addpainting", async (req, res) => {
         "description": description,
         "medium": medium,
         "highestBid": HighestBid,
-        "size": styling,
+        "styling": styling,
+        "size":size,
+        "theme":theme,
         "notes":[]
       });
       await paintingbids.insertOne({
