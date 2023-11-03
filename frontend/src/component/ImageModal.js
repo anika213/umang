@@ -4,13 +4,15 @@ import ImageonUpload from './ImageonUpload';
 import {useState,useEffect} from 'react';
 
 const ImageModal = ({ show, imageSrc, onClose, cancelPressed, initialData}) => {
-
+  console.log("IN IMAGEMODAL", show)
  // Split the initialData.title by " by " to get the title and artist
  const [title, setTitle] = useState('');
  const [artist, setArtist] = useState('');
  const [description, setDescription] = useState('');
  const [medium, setMedium] = useState('');
  const [minBid, setMinBid] = useState('');
+ const [size, setSize] = useState('');
+ const [theme, setTheme] = useState('');
  const [styling, setStyling] = useState('horizontalupload');
 
  useEffect(() => {
@@ -20,8 +22,10 @@ const ImageModal = ({ show, imageSrc, onClose, cancelPressed, initialData}) => {
    setArtist(initialArtist || '');
    setDescription(initialData.description || '');
    setMedium(initialData.medium || '');
+   setSize(initialData.size|| '');
+   setTheme(initialData.theme || '');
    setMinBid(initialData.highestBid ? initialData.highestBid.bidvalue : '');
-   setStyling(initialData.size || 'horizontalupload');
+   setStyling(initialData.styling || 'horizontalupload');
  }, [initialData]);
 console.log(title,artist,description,medium,minBid,styling)
 
@@ -35,6 +39,8 @@ console.log(title,artist,description,medium,minBid,styling)
      setDescription('');
     setMedium('');
     setMinBid('');
+    setTheme('');
+    setSize('');
     setStyling('horizontalupload');
 
   }
@@ -49,7 +55,6 @@ console.log(title,artist,description,medium,minBid,styling)
       setStyling("horizontalupload");
     }
 }
-  console.log()
   return (
     <div className="modal-overlay">
       <div className="modal-card">
@@ -74,6 +79,14 @@ console.log(title,artist,description,medium,minBid,styling)
           <div className="field-container">
             <p className="field-label">Medium:</p>
             <input type="text" className="field-input" value={medium} onChange={(e) => setMedium(e.target.value)}/>
+          </div>
+          <div className="field-container">
+            <p className="field-label">Size:</p>
+            <input type="text" className="field-input" value={size} onChange={(e) => setSize(e.target.value)}/>
+          </div>
+          <div className="field-container">
+            <p className="field-label">Theme:</p>
+            <input type="text" className="field-input" value={theme} onChange={(e) => setTheme(e.target.value)}/>
           </div>
           <div className="field-container">
             <p className="field-label">Minimum Bid:</p>

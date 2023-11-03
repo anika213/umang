@@ -128,6 +128,7 @@ const MySwal = withReactContent(Swal);
 
   // Function to handle file input change
   const handleFileChange = (e) => {
+    console.log("in file change")
     const file = e.target.files[0];
     if (file && (file.type === 'image/jpeg' || file.type === 'image/png')) {
       const reader = new FileReader();
@@ -215,9 +216,9 @@ if (admin === false) {
     
       <h1>UPLOAD PAINTINGS</h1>
       <div>
-        <input type="file" accept="image/jpeg, image/png" onChange={handleFileChange} placeholder='Add a Painting' />
+      <input type="file" accept="image/jpeg, image/png" onChange={handleFileChange} placeholder='Add a Painting' />
         <ImageModal show={showModal} imageSrc={uploadedImage} onClose={saveInfo} cancelPressed={cancelPressed} initialData={initialModalData} />
-      </div>
+    </div>
       <div>
       <p className='mini-title'>Current Paintings in the Database</p>
         {

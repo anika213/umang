@@ -5,7 +5,6 @@ import { CheckCookie } from '../pages/Landing';
 import { useState ,useEffect} from 'react';
 import withReactContent from 'sweetalert2-react-content';
 import axios from 'axios';  // You seem to use axios but haven't imported it
-import LoadingScreen from './Loading';
 import { checkIfBiddingDone } from '../pages/Login';
 
 const MySwal = withReactContent(Swal);
