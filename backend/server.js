@@ -478,7 +478,7 @@ app.put("/admin/addpainting", async (req, res) => {
           "medium": medium,
           "size":size,
           "theme":theme,
-          "style": styling
+          "styling": styling
         }}
       );
       // Add code here to update the image if needed
