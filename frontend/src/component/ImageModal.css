@@ -33,6 +33,7 @@
 }
 .field-label {
   margin-right: 10px;
+  font-size: 20px;
   width: 120px; /* fixed width to align all labels */
   text-align: right; /* align text to the right within this fixed width */
 }
