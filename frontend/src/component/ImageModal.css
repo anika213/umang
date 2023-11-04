@@ -21,7 +21,7 @@
   border-radius: 8px;
   display: flex;
   flex-direction: row;
-  width:60%;
+  width:76%;
   height:95%;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
@@ -109,7 +109,7 @@
 
 .modal-right {
   flex: 1;
-  margin-top:10px;
+  margin-top:20px;
   margin-left:30px;
   display: flex;
   flex-direction: column;
