@@ -43,6 +43,7 @@
   border-radius: 8px; /* rounded edges */
   padding: 8px; /* padding inside input */
   background-color: white;
+  height:35px;
 }
 
 .verticalupload{
