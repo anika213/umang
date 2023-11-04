@@ -91,7 +91,7 @@ import h1 from './Display';
       
       fetchData();
     }, []);
-    const artPieces = Array.from({ length: 30 }, (_, index) => index + 1); // Changed from numberOfPaintings to 50
+    const artPieces = Array.from({ length: 100 }, (_, index) => index + 1); // Changed from numberOfPaintings to 50
     return (
       <div>
         <Navbar_landing />
