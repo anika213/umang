@@ -629,7 +629,7 @@ app.get('/admin/endbidding', async (req, res) => {
       paintingsMediums[paintingName] = paintingInfo.medium || 'N/A';
       paintingsSizes[paintingName] = paintingInfo.size || 'N/A';
       paintingsDimensions[paintingName] = paintingInfo.dimensions || 'N/A';
-      paintingsThemes[paintingName] = paintingInfo.themes || 'N/A';
+      paintingsThemes[paintingName] = paintingInfo.theme || 'N/A';
       paintingsHighestBids[paintingName] = paintingInfo.highestBid ? paintingInfo.highestBid.bidvalue : 'N/A';
       imageUrls[paintingName] = `https://umang-react-usz25.ondigitalocean.app/image?paintingnumber=${paintingName}`;
     });
