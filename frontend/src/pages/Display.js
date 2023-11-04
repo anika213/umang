@@ -228,7 +228,7 @@ useEffect(() => {
           );
           setFilteredPaintings(filtered);
         }
-        const paintingNumbers = Array.from({ length: 30 }, (_, i) => i + 1); // Changed from numberOfPaintings to 50
+        const paintingNumbers = Array.from({ length: 100 }, (_, i) => i + 1); // Changed from numberOfPaintings to 50
         console.log("image" + images);
         console.log(paintingsTitles);
         return (
