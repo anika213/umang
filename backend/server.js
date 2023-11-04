@@ -631,7 +631,7 @@ app.get('/admin/endbidding', async (req, res) => {
       paintingsDimensions[paintingName] = paintingInfo.dimensions || 'N/A';
       paintingsThemes[paintingName] = paintingInfo.themes || 'N/A';
       paintingsHighestBids[paintingName] = paintingInfo.highestBid ? paintingInfo.highestBid.bidvalue : 'N/A';
-      imageUrls[paintingName] = `http://localhost:8000/image?paintingnumber=${paintingName}`;
+      imageUrls[paintingName] = `https://umang-react-usz25.ondigitalocean.app/image?paintingnumber=${paintingName}`;
     });
     console.log(imageUrls)  
     res.status(200).json({
