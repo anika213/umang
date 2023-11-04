@@ -33,7 +33,7 @@ console.log(title,artist,description,medium,minBid,styling)
     return null;
   }
   function closeModal() {
-    onClose(title,artist,description,medium,minBid,styling);
+    onClose(title,artist,description,medium,minBid,styling,theme,dimensions);
     setTitle(''); // Reset the form fields
      setArtist('');
      setDescription('');
