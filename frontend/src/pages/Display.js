@@ -15,6 +15,7 @@ import { CheckCookie } from './Landing';
 // import { paintingsTitles } from './Highestbids';
 import { checkIfBiddingDone } from './Login';
 import ImageDisplay from '../component/ImageDisplay';
+import { set } from 'mongoose';
 let rowcount = 1;
 let y =0;
 export var h1 = 70;
@@ -133,9 +134,9 @@ function alert(paintingnumber){
         <br></br>
         <p1><span>MEDIUM:</span> {PaintingMediums[paintingnumber]} </p1>
         <br></br>
-        <p1><span>THEME:</span> Discovery </p1>
+        <p1><span>THEME:</span> {themes[paintingnumber]} </p1>
         <br></br>
-        <p1><span>SIZE:</span> Approx. A3</p1>
+        <p1><span>SIZE:</span> {dimensions[paintingnumber]}</p1>
         </div>,
     background:"black",
     width: "50vmax",
@@ -147,6 +148,8 @@ function alert(paintingnumber){
   let [paintingsTitles, setPaintingTitles] = useState({});
   let [Paintingsizes, setPaintingSizes] = useState({});
   let [descriptions, setPaintingDescriptions] = useState({});
+  let [themes, setThemes] = useState({});
+  let [dimensions, setDimensions] = useState({});
   let [HighestBidsValues, setHighestBidsValues] = useState({});
   let [PaintingMediums, setPaintingMediums] = useState({});
   let [numberOfPaintings, setNumberOfPaintings] = useState();
@@ -162,35 +165,6 @@ function alert(paintingnumber){
     getBiddingInfo();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchImages = async () => {
-  //     try {
-  //       const requests = [];
-  //       for (let i = 1; i <= numberOfPaintings; i++) {
-  //         const paintingNumber = `painting${i}`;
-  //         requests.push(
-  //           axios.get(`https://umang-react-usz25.ondigitalocean.app/image`, {
-  //             params: { paintingnumber: paintingNumber },
-  //           })
-  //         );
-  //       }
-  
-  //       const responses = await Promise.all(requests);
-  //       const imageUrls = {};
-        
-  //       responses.forEach((response, index) => {
-  //         const paintingNumber = `painting${index + 1}`;
-  //         imageUrls[paintingNumber] = `https://umang-react-usz25.ondigitalocean.app/image?paintingnumber=${paintingNumber}`;
-  //       });
-  
-  //       setImages(imageUrls);
-  //     } catch (error) {
-  //       console.error("Error fetching images:", error);
-  //     }
-  //   };
-  
-  //   fetchImages();
-  // }, [numberOfPaintings]);
   
 
 
@@ -203,12 +177,15 @@ useEffect(() => {
     try {
       const response = await axios.get('https://umang-react-usz25.ondigitalocean.app/paintinginfo');
       // Accessing the properties in the response
+      console.log(response.data);
       const titles = response.data.titles;
       const sizes = response.data.sizes;
       const descriptions = response.data.descriptions;
       const highestBids = response.data.highestBids;
       const imageurls = response.data.images;
       const mediums = response.data.mediums;
+      const themes = response.data.themes;
+      const dimensions = response.data.dimensions;
       
       // Update the state variables
       setPaintingTitles(titles);
@@ -217,12 +194,14 @@ useEffect(() => {
       setHighestBidsValues(highestBids);
       setPaintingMediums(mediums);
       setImages(imageurls);
+      setThemes(themes);
+      setDimensions(dimensions);
 
 
       // Set the number of paintings
       const numPaintings = Object.keys(titles).length;
       setNumberOfPaintings(numPaintings);
-      console.log(numberOfPaintings)
+      // console.log(numberOfPaintings)
     } catch (error) {
       // Handle any errors here
       console.error("Error fetching data:", error);
