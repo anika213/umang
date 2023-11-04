@@ -81,7 +81,7 @@ console.log(title,artist,description,medium,minBid,styling)
             <input type="text" className="field-input" value={medium} onChange={(e) => setMedium(e.target.value)}/>
           </div>
           <div className="field-container">
-            <p className="field-label">setDimensions:</p>
+            <p className="field-label">Dimensions:</p>
             <input type="text" className="field-input" value={dimensions} onChange={(e) => setDimensions(e.target.value)}/>
           </div>
           <div className="field-container">
