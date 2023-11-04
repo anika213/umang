@@ -69,10 +69,10 @@ const MySwal = withReactContent(Swal);
     });
   }
   
-  async function saveInfo(title,artist,description,medium,minBid,styling){
-    console.log(title,artist,description,medium,minBid,styling);
+  async function saveInfo(title,artist,description,medium,minBid,styling,theme,dimensions){
+    console.log(title,artist,description,medium,minBid,styling,theme,dimensions);
     console.log("PAINTING"+paintingnum)
-    await axios.put('https://umang-react-usz25.ondigitalocean.app/admin/addpainting', {title,artist,description,medium,minBid,styling,image:uploadedImage,paintingnum })
+    await axios.put('https://umang-react-usz25.ondigitalocean.app/admin/addpainting', {title,artist,description,medium,minBid,styling,theme,dimensions,image:uploadedImage,paintingnum })
     .then((data) => {
       console.log(data, 'userRegistered');
       setInitialModalData({}); // Reset the initial modal data
@@ -128,7 +128,6 @@ const MySwal = withReactContent(Swal);
 
   // Function to handle file input change
   const handleFileChange = (e) => {
-    console.log("in file change")
     const file = e.target.files[0];
     if (file && (file.type === 'image/jpeg' || file.type === 'image/png')) {
       const reader = new FileReader();
@@ -216,9 +215,9 @@ if (admin === false) {
     
       <h1>UPLOAD PAINTINGS</h1>
       <div>
-      <input type="file" accept="image/jpeg, image/png" onChange={handleFileChange} placeholder='Add a Painting' />
+        <input type="file" accept="image/jpeg, image/png" onChange={handleFileChange} placeholder='Add a Painting' />
         <ImageModal show={showModal} imageSrc={uploadedImage} onClose={saveInfo} cancelPressed={cancelPressed} initialData={initialModalData} />
-    </div>
+      </div>
       <div>
       <p className='mini-title'>Current Paintings in the Database</p>
         {
