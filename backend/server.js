@@ -613,6 +613,8 @@ app.get('/admin/endbidding', async (req, res) => {
     const allinfo = await paintings.find().toArray();
     
     var paintingsTitles = {};
+    var paintingsThemes = {};
+    var paintingsDimensions = {};
     var paintingsDescriptions = {};
     var paintingsMediums = {};
     var paintingsSizes = {};
@@ -626,8 +628,10 @@ app.get('/admin/endbidding', async (req, res) => {
       paintingsDescriptions[paintingName] = paintingInfo.description || 'N/A';
       paintingsMediums[paintingName] = paintingInfo.medium || 'N/A';
       paintingsSizes[paintingName] = paintingInfo.size || 'N/A';
+      paintingsDimensions[paintingName] = paintingInfo.dimensions || 'N/A';
+      paintingsThemes[paintingName] = paintingInfo.themes || 'N/A';
       paintingsHighestBids[paintingName] = paintingInfo.highestBid ? paintingInfo.highestBid.bidvalue : 'N/A';
-      imageUrls[paintingName] = `https://umang-react-usz25.ondigitalocean.app/image?paintingnumber=${paintingName}`;
+      imageUrls[paintingName] = `http://localhost:8000/image?paintingnumber=${paintingName}`;
     });
     console.log(imageUrls)  
     res.status(200).json({
@@ -635,6 +639,8 @@ app.get('/admin/endbidding', async (req, res) => {
       descriptions: paintingsDescriptions,
       mediums: paintingsMediums,
       sizes: paintingsSizes,
+      dimensions:paintingsDimensions,
+      themes:paintingsThemes,
       highestBids: paintingsHighestBids,
       images: imageUrls,
     });
