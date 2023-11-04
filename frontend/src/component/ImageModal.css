@@ -109,7 +109,7 @@
 
 .modal-right {
   flex: 1;
-  margin-top:120px;
+  margin-top:10px;
   margin-left:30px;
   display: flex;
   flex-direction: column;
