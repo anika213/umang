@@ -11,7 +11,7 @@ const ImageModal = ({ show, imageSrc, onClose, cancelPressed, initialData}) => {
  const [description, setDescription] = useState('');
  const [medium, setMedium] = useState('');
  const [minBid, setMinBid] = useState('');
- const [size, setSize] = useState('');
+ const [dimensions, setDimensions] = useState('');
  const [theme, setTheme] = useState('');
  const [styling, setStyling] = useState('horizontalupload');
 
@@ -22,7 +22,7 @@ const ImageModal = ({ show, imageSrc, onClose, cancelPressed, initialData}) => {
    setArtist(initialArtist || '');
    setDescription(initialData.description || '');
    setMedium(initialData.medium || '');
-   setSize(initialData.dimensions|| '');
+   setDimensions(initialData.dimensions|| '');
    setTheme(initialData.theme || '');
    setMinBid(initialData.highestBid ? initialData.highestBid.bidvalue : '');
    setStyling(initialData.styling || 'horizontalupload');
@@ -33,14 +33,14 @@ console.log(title,artist,description,medium,minBid,styling)
     return null;
   }
   function closeModal() {
-    onClose(title,artist,description,medium,minBid,styling,theme,dimensions);
+    onClose(title,artist,description,medium,minBid,styling);
     setTitle(''); // Reset the form fields
      setArtist('');
      setDescription('');
     setMedium('');
     setMinBid('');
     setTheme('');
-    setSize('');
+    setDimensions('');
     setStyling('horizontalupload');
 
   }
@@ -81,8 +81,8 @@ console.log(title,artist,description,medium,minBid,styling)
             <input type="text" className="field-input" value={medium} onChange={(e) => setMedium(e.target.value)}/>
           </div>
           <div className="field-container">
-            <p className="field-label">Size:</p>
-            <input type="text" className="field-input" value={size} onChange={(e) => setSize(e.target.value)}/>
+            <p className="field-label">setDimensions:</p>
+            <input type="text" className="field-input" value={dimensions} onChange={(e) => setDimensions(e.target.value)}/>
           </div>
           <div className="field-container">
             <p className="field-label">Theme:</p>
