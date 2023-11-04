@@ -451,8 +451,8 @@ app.get("/image/:id", async (req, res) => {
 
 app.put("/admin/addpainting", async (req, res) => {
   try {
-    const { title, artist, description, medium, minBid, styling, image, paintingnum } = req.body;
-
+    const { title, artist, description, medium, minBid, styling, image, paintingnum,theme,dimensions } = req.body;
+    console.log("theme"+theme)
     // Create HighestBid object
     const HighestBid = {
       "bidder": "Minimum Bid",
@@ -476,7 +476,9 @@ app.put("/admin/addpainting", async (req, res) => {
           "title": accTitle,
           "description": description,
           "medium": medium,
-          "size": styling
+          "size": styling,
+          "theme":theme,
+          "dimensions":dimensions
         }}
       );
       // Add code here to update the image if needed
@@ -502,7 +504,9 @@ app.put("/admin/addpainting", async (req, res) => {
         "medium": medium,
         "highestBid": HighestBid,
         "size": styling,
-        "notes":[]
+        "notes":[],
+        "theme":theme,
+        "dimensions":dimensions
       });
       await paintingbids.insertOne({
         "painting": newPaintingNumber,
@@ -533,7 +537,6 @@ app.put("/admin/addpainting", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-
 
 app.get("/image", async (req, res) => {
   try {
