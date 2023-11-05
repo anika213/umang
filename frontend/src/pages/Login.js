@@ -268,7 +268,7 @@ useEffect(() => {
             navigate('/display', { replace: true });
           });
         MySwal.fire({
-          title: <strong>Thanks for submitting, your response has been recorded</strong>,
+          title: <strong>Thanks for submitting, your response has been recorded. Welcome to the gallery page! You can click on a painting to view details and use the button below to place bids.</strong>,
           background: 'white',
           width: '35vmax',
           confirmButtonText: 'OK',
