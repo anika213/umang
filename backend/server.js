@@ -478,7 +478,8 @@ app.put("/admin/addpainting", async (req, res) => {
           "medium": medium,
           "size": styling,
           "theme":theme,
-          "dimensions":dimensions
+          "dimensions":dimensions,
+            "highestBid": HighestBid,
         }}
       );
       // Add code here to update the image if needed
