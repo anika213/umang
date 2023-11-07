@@ -231,38 +231,48 @@ useEffect(() => {
         const paintingNumbers = Array.from({ length: 100 }, (_, i) => i + 1); // Changed from numberOfPaintings to 50
         console.log("image" + images);
         console.log(paintingsTitles);
-        return (
-          <div>
-            <Navbar_landing></Navbar_landing>
-            <h1>Art Gallery</h1>
-            <div style={{ position: 'relative' }}>
-              <FontAwesomeIcon icon={faSearch} style={{ position: 'relative',left: '35px', zIndex: '1', color: 'gray' }} />
-              <input
-                type="text"
-                id="searchInput"
-                placeholder="Search for a painting..."
-                onChange={(e) => handleSearch(e.target.value)}
-                value={searchQuery}
-                style={{ paddingLeft: '40px' }} // Add padding to make space for the icon
-              />
-            </div>
-            {searchQuery.length > 0 && (
-              <ul id="suggestions">
-                {filteredPaintings.map((title, index) => (
-                  <li key={index} onClick={() => scrollToPainting(title)}>
-                    {title}
-                  </li>
-                ))}
-              </ul>
-            )}
-          <div id="root" style={{ padding: '5%', textAlign: 'center' }}>   
-          <div className="gallery-container">
-      {paintingNumbers.map((num) => {
-        const paintingKey = `painting${num}`;
-        if (!paintingsTitles[paintingKey]) {
-          return null; // Skip this iteration if the painting doesn't exist in paintingsTitles
-        }
-        return (
+
+        const verticalPaintings = [];
+const otherPaintings = [];
+
+paintingNumbers.forEach(num => {
+  const paintingKey = `painting${num}`;
+  if (paintingsTitles[paintingKey]) {
+    if (Paintingsizes[paintingKey] === 'horizontalupload') { // Replace this condition with your actual logic
+      verticalPaintings.push(paintingKey);
+    } else {
+      otherPaintings.push(paintingKey);
+    }
+  }
+});
+return (
+  <div>
+    <Navbar_landing></Navbar_landing>
+    <h1>Art Gallery</h1>
+    <div style={{ position: 'relative' }}>
+      <FontAwesomeIcon icon={faSearch} style={{ position: 'relative', left: '35px', zIndex: '1', color: 'gray' }} />
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search for a painting..."
+        onChange={(e) => handleSearch(e.target.value)}
+        value={searchQuery}
+        style={{ paddingLeft: '40px' }} // Add padding to make space for the icon
+      />
+    </div>
+    {searchQuery.length > 0 && (
+      <ul id="suggestions">
+        {filteredPaintings.map((title, index) => (
+          <li key={index} onClick={() => scrollToPainting(title)}>
+            {title}
+          </li>
+        ))}
+      </ul>
+    )}
+    <div id="root" style={{ padding: '5%', textAlign: 'center' }}>
+      <div className="gallery-container">
+        {/* First render vertical paintings */}
+        {verticalPaintings.map(paintingKey => (
           <ImageDisplay
             key={paintingKey}
             image={images[paintingKey]}
@@ -270,15 +280,26 @@ useEffect(() => {
             size={Paintingsizes[paintingKey]}
             bid={HighestBidsValues[paintingKey]}
             alert={() => alert(paintingKey)}
-            placebid={() => bid(num)}
+            placebid={() => bid(paintingNumbers.indexOf(paintingKey) + 1)}
           />
-        );
-      })}
+        ))}
+        {/* Then render other paintings */}
+        {otherPaintings.map(paintingKey => (
+          <ImageDisplay
+            key={paintingKey}
+            image={images[paintingKey]}
+            title={paintingsTitles[paintingKey]}
+            size={Paintingsizes[paintingKey]}
+            bid={HighestBidsValues[paintingKey]}
+            alert={() => alert(paintingKey)}
+            placebid={() => bid(paintingNumbers.indexOf(paintingKey) + 1)}
+          />
+        ))}
+      </div>
     </div>
-            </div>
-          </div>
-        );
-        
+  </div>
+);
+
 
              
    
