@@ -337,6 +337,7 @@ app.put("/allbids/placebid", async (req, res) => {
     const { paintingnumber, name, bidvalue } = req.body;
     console.log(paintingnumber, name, bidvalue);
     const data = await getHighestBid(paintingnumber);
+    console.log(data,data[0]);
     const highestBidder = data[0].highestBid.bidder;
     const highestBidderEmail = await users.find({"username":highestBidder}).toArray()
     console.log(highestBidderEmail[0].useremail)
