@@ -4,34 +4,27 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import ReactDOM from 'react-dom';
-import ModalImage from "react-modal-image";
 import classes from './Display.css';
 import Navbar_landing from '../component/Navbar_landing.js'
 import React, { useState, useEffect} from 'react'
 import axios from 'axios';
-import LoadingScreen from '../component/Loading';
 import { CheckCookie } from './Landing';
-// import { paintingsTitles } from './Highestbids';
 import { checkIfBiddingDone } from './Login';
-import ImageDisplay from '../component/ImageDisplay';
-import { set } from 'mongoose';
-let rowcount = 1;
+import ImageDisplay from '../component/ImageDisplay'
 let y =0;
 export var h1 = 70;
 const MySwal = withReactContent(Swal)
-var highestbid;
   
 
 function Display()
 { 
 
-
+/// function which is called when user clicks place bid
 async function bid(art_number){  
   if(isBiddingEnded === true){
     //alert the user that they cant log in because bidding is done
     MySwal.fire({
-      title: <strong>Sorry, You bid on this painting, the Bidding has ended!</strong>,
+      title: <strong>Sorry, You bid on this painting, the Bidding has ended!</strong>, // first check: is biddingstate true or false
       background: 'white',
       width: '35vmax',
       confirmButtonText: 'OK',
@@ -45,7 +38,7 @@ async function bid(art_number){
   var paintingnumber = "painting"+String(art_number);
   if(CheckCookie("name")==false){ 
       MySwal.fire({
-        title: <strong>Please login and try again!</strong>,
+        title: <strong>Please login and try again!</strong>, // 2nd check: is user logged in
         background: "white",
         width: "35vmax",
         confirmButtonText: 'OK',
@@ -60,7 +53,7 @@ async function bid(art_number){
 
   if (!Number.isInteger(+bidvalue) || +bidvalue <= 0) {
     MySwal.fire({
-      title: '<strong>Please enter a positive integer as your bid!</strong>',
+      title: '<strong>Please enter a positive integer as your bid!</strong>', // 3rd check: is bid valid
       background: "white",
       width: "35vmax",
       confirmButtonText: 'OK',
@@ -71,13 +64,13 @@ async function bid(art_number){
   
   bidvalue = parseInt(bidvalue);
   var name = CheckCookie("name");
-  await axios.put('https://umang-react-usz25.ondigitalocean.app/allbids/placebid',{paintingnumber,name,bidvalue})
+  await axios.put('http://localhost:8000/allbids/placebid',{paintingnumber,name,bidvalue})
   .then(async (val)=>{
           console.log(val,"cookie sent");
           // console.log(val.data);
           if(val.data=="time"){
             MySwal.fire({
-              title: <strong>Sorry, you can't bid within 10 seconds of another bid!</strong>,
+              title: <strong>Sorry, you can't bid within 10 seconds of another bid!</strong>, // 4th check: prevent autobids
               background: "white",
               width: "35vmax",
               confirmButtonText: 'OK',
@@ -87,7 +80,7 @@ async function bid(art_number){
           }
           if(val.data=="value"){
             MySwal.fire({
-              title: <strong>Sorry, this bid is not greater than the current value!</strong>,
+              title: <strong>Sorry, this bid is not greater than the current value!</strong>, //5th check: is bid greater than current highest  bid
               background: "white",
               width: "35vmax",
               confirmButtonText: 'OK',
@@ -99,17 +92,17 @@ async function bid(art_number){
           const prevname = val.data[0].username
           if(prevemail!=CheckCookie("email")){
             console.log("sending email")
-          var params ={
+          var params ={                 // storing info of previous bidder to send outbid email
             name: prevname,
             email: prevemail,
             painting_title: paintingsTitles[paintingnumber],
           };
-          if(prevemail!="minbid@gmail.com"){
-            // emailjs.send("service_adnzlti","template_fh02zsq",params,"e7AJH9FfOWzIXQQJm");
+          if(prevemail!="minbid.com"){
+            emailjs.send("service_adnzlti","template_fh02zsq",params,"e7AJH9FfOWzIXQQJm");
           }
       }
       try {
-        const response = await axios.get('https://umang-react-usz25.ondigitalocean.app/paintinginfo');
+        const response = await axios.get('http://localhost:8000/paintinginfo');
         if (response.data && response.data.highestBids) {
           setHighestBidsValues(response.data.highestBids);
         }
@@ -121,7 +114,7 @@ async function bid(art_number){
  
 }
 
-function alert(paintingnumber){
+function alert(paintingnumber){ // alert for each painting
 
   MySwal.fire({
     title: <strong>{paintingsTitles[paintingnumber]}</strong>,
@@ -134,9 +127,9 @@ function alert(paintingnumber){
         <br></br>
         <p1><span>MEDIUM:</span> {PaintingMediums[paintingnumber]} </p1>
         <br></br>
-        <p1><span>THEME:</span> {themes[paintingnumber]} </p1>
+        <p1><span>THEME:</span> Discovery </p1>
         <br></br>
-        <p1><span>SIZE:</span> {dimensions[paintingnumber]}</p1>
+        <p1><span>SIZE:</span> Approx. A3</p1>
         </div>,
     background:"black",
     width: "50vmax",
@@ -145,11 +138,9 @@ function alert(paintingnumber){
   })  
 
 }
-  let [paintingsTitles, setPaintingTitles] = useState({});
+  let [paintingsTitles, setPaintingTitles] = useState({}); // set state variables for each painting
   let [Paintingsizes, setPaintingSizes] = useState({});
   let [descriptions, setPaintingDescriptions] = useState({});
-  let [themes, setThemes] = useState({});
-  let [dimensions, setDimensions] = useState({});
   let [HighestBidsValues, setHighestBidsValues] = useState({});
   let [PaintingMediums, setPaintingMediums] = useState({});
   let [numberOfPaintings, setNumberOfPaintings] = useState();
@@ -166,26 +157,19 @@ function alert(paintingnumber){
   }, []);
 
   
-
-
-
-  
-    // Fetch the data when the component mounts
-   // Fetch the data when the component mounts
+   // Fetch the painting data when the component mounts
 useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://umang-react-usz25.ondigitalocean.app/paintinginfo');
+      const response = await axios.get('http://localhost:8000/paintinginfo');
       // Accessing the properties in the response
-      console.log(response.data);
+      console.log(response)
       const titles = response.data.titles;
       const sizes = response.data.sizes;
       const descriptions = response.data.descriptions;
       const highestBids = response.data.highestBids;
       const imageurls = response.data.images;
       const mediums = response.data.mediums;
-      const themes = response.data.themes;
-      const dimensions = response.data.dimensions;
       
       // Update the state variables
       setPaintingTitles(titles);
@@ -194,14 +178,12 @@ useEffect(() => {
       setHighestBidsValues(highestBids);
       setPaintingMediums(mediums);
       setImages(imageurls);
-      setThemes(themes);
-      setDimensions(dimensions);
 
 
       // Set the number of paintings
       const numPaintings = Object.keys(titles).length;
       setNumberOfPaintings(numPaintings);
-      // console.log(numberOfPaintings)
+      console.log(numberOfPaintings)
     } catch (error) {
       // Handle any errors here
       console.error("Error fetching data:", error);
@@ -214,7 +196,7 @@ useEffect(() => {
         const [searchQuery, setSearchQuery] = useState('');
         const [filteredPaintings, setFilteredPaintings] = useState([]);
       
-        const scrollToPainting = (paintingTitle) => {
+        const scrollToPainting = (paintingTitle) => { // search feature => scroll to painting
           const paintingElement = document.getElementById(paintingTitle);
           if(paintingElement) {
             paintingElement.scrollIntoView({behavior: "smooth"});
@@ -228,51 +210,43 @@ useEffect(() => {
           );
           setFilteredPaintings(filtered);
         }
-        const paintingNumbers = Array.from({ length: 100 }, (_, i) => i + 1); // Changed from numberOfPaintings to 50
+        const paintingNumbers = Array.from({ length: 30 }, (_, i) => i + 1); // Changed from numberOfPaintings to 50
         console.log("image" + images);
         console.log(paintingsTitles);
 
-        const verticalPaintings = [];
-const otherPaintings = [];
-
-paintingNumbers.forEach(num => {
-  const paintingKey = `painting${num}`;
-  if (paintingsTitles[paintingKey]) {
-    if (Paintingsizes[paintingKey] === 'horizontalupload') { // Replace this condition with your actual logic
-      verticalPaintings.push(paintingKey);
-    } else {
-      otherPaintings.push(paintingKey);
-    }
-  }
-});
-return (
-  <div>
-    <Navbar_landing></Navbar_landing>
-    <h1>Art Gallery</h1>
-    <div style={{ position: 'relative' }}>
-      <FontAwesomeIcon icon={faSearch} style={{ position: 'relative', left: '35px', zIndex: '1', color: 'gray' }} />
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="Search for a painting..."
-        onChange={(e) => handleSearch(e.target.value)}
-        value={searchQuery}
-        style={{ paddingLeft: '40px' }} // Add padding to make space for the icon
-      />
-    </div>
-    {searchQuery.length > 0 && (
-      <ul id="suggestions">
-        {filteredPaintings.map((title, index) => (
-          <li key={index} onClick={() => scrollToPainting(title)}>
-            {title}
-          </li>
-        ))}
-      </ul>
-    )}
-    <div id="root" style={{ padding: '5%', textAlign: 'center' }}>
-      <div className="gallery-container">
-        {/* First render vertical paintings */}
-        {verticalPaintings.map(paintingKey => (
+        // JSX for the page
+        return (
+          <div>
+            <Navbar_landing></Navbar_landing>
+            <h1>Art Gallery</h1>
+            <div style={{ position: 'relative' }}>
+              <FontAwesomeIcon icon={faSearch} style={{ position: 'relative',left: '35px', zIndex: '1', color: 'gray' }} />
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Search for a painting..."
+                onChange={(e) => handleSearch(e.target.value)}
+                value={searchQuery}
+                style={{ paddingLeft: '40px' }} 
+              />
+            </div>
+            {searchQuery.length > 0 && (
+              <ul id="suggestions">
+                {filteredPaintings.map((title, index) => (
+                  <li key={index} onClick={() => scrollToPainting(title)}>
+                    {title}
+                  </li>
+                ))}
+              </ul>
+            )}
+          <div id="root" style={{ padding: '5%', textAlign: 'center' }}>   
+          <div className="gallery-container">
+      {paintingNumbers.map((num) => {
+        const paintingKey = `painting${num}`;
+        if (!paintingsTitles[paintingKey]) {
+          return null; // Skip this iteration if the painting doesn't exist in paintingsTitles
+        }
+        return (
           <ImageDisplay
             key={paintingKey}
             image={images[paintingKey]}
@@ -280,26 +254,15 @@ return (
             size={Paintingsizes[paintingKey]}
             bid={HighestBidsValues[paintingKey]}
             alert={() => alert(paintingKey)}
-            placebid={() => bid(paintingNumbers.indexOf(paintingKey) + 1)}
+            placebid={() => bid(num)}
           />
-        ))}
-        {/* Then render other paintings */}
-        {otherPaintings.map(paintingKey => (
-          <ImageDisplay
-            key={paintingKey}
-            image={images[paintingKey]}
-            title={paintingsTitles[paintingKey]}
-            size={Paintingsizes[paintingKey]}
-            bid={HighestBidsValues[paintingKey]}
-            alert={() => alert(paintingKey)}
-            placebid={() => bid(paintingNumbers.indexOf(paintingKey) + 1)}
-          />
-        ))}
-      </div>
+        );
+      })}
     </div>
-  </div>
-);
-
+            </div>
+          </div>
+        );
+        
 
              
    
