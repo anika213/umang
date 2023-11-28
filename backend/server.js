@@ -181,7 +181,7 @@ resetAuction = async () => {
   
     var highestbiddersemails = {};
     for (const paintingNumber in highestbiddersnames) {
-      const bidderName = highestbiddersnames[paintingNumber];
+      const bidderName = highestbiddersnames[paintingNumber].lowercase();
       var bidderemail = await users.find({"username": bidderName}).toArray();
   
       // Check if bidderemail is found and has at least one entry
@@ -337,10 +337,10 @@ app.put("/allbids/placebid", async (req, res) => {
     const { paintingnumber, name, bidvalue } = req.body;
     console.log(paintingnumber, name, bidvalue);
     const data = await getHighestBid(paintingnumber);
-    console.log(data,data[0]);
     const highestBidder = data[0].highestBid.bidder;
+    console.log(highestBidder)
     const highestBidderEmail = await users.find({"username":highestBidder}).toArray()
-    console.log(highestBidderEmail[0].useremail)
+    console.log(highestBidderEmail)
     const currentTime = new Date();
     if (userLastBidTime[name] && ((currentTime - userLastBidTime[name]) / 1000) < 10) {
         console.log("error: bid too soon"); 
