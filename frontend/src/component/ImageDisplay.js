@@ -89,9 +89,11 @@ export default function ImageDisplay(props) {
       const note = text;  // 'note' is now defined as the user input
       console.log(note);
       let x = props.image.toString();
-      let number = x.charAt(x.length - 1)
-      const paintingnumber = "painting" +number;
-      console.log(paintingnumber)
+      let match = x.match(/(\d+)(?!.*\d)/); // Regex to find the last occurrence of one or more digits
+      let number = match ? match[0] : null;  // Extracts the number part if found, otherwise null
+
+      const paintingnumber = number ? "painting" + number : "Unknown"; // Constructs 'painting<number>' or 'Unknown' if number not found
+      console.log(paintingnumber);
       
       try {
         const val = await axios.put('https://umang-react-usz25.ondigitalocean.app/paintings/writenote', { note, paintingnumber });
