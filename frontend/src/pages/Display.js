@@ -21,98 +21,99 @@ function Display()
 
 /// function which is called when user clicks place bid
 async function bid(art_number){  
-  if(isBiddingEnded === true){
-    //alert the user that they cant log in because bidding is done
-    MySwal.fire({
-      title: <strong>Sorry, You can't bid on this painting, the Bidding has ended!</strong>, // first check: is biddingstate true or false
-      background: 'white',
-      width: '35vmax',
-      confirmButtonText: 'OK',
-      buttonsStyling: false,
-    });
-    console.log("bidding ended")
-    return;
-  }
-
-
-  var paintingnumber = "painting"+String(art_number);
-  if(CheckCookie("name")==false){ 
+    if(isBiddingEnded === true){
+      //alert the user that they cant log in because bidding is done
       MySwal.fire({
-        title: <strong>Please login and try again!</strong>, // 2nd check: is user logged in
+        title: <strong>Sorry, You can't bid on this painting, the Bidding has ended!</strong>, // first check: is biddingstate true or false
+        background: 'white',
+        width: '35vmax',
+        confirmButtonText: 'OK',
+        buttonsStyling: false,
+      });
+      console.log("bidding ended")
+      return;
+    }
+  
+  
+    var paintingnumber = "painting"+String(art_number);
+    if(CheckCookie("name")==false){ 
+        MySwal.fire({
+          title: <strong>Please login and try again!</strong>, // 2nd check: is user logged in
+          background: "white",
+          width: "35vmax",
+          confirmButtonText: 'OK',
+          buttonsStyling: false,
+  
+        })
+        return false;
+    }
+  
+  
+    let bidvalue = prompt('How much would you like to bid for this piece(in SGD)?');
+  
+    if (!Number.isInteger(+bidvalue) || +bidvalue <= 0) {
+      MySwal.fire({
+        title: '<strong>Please enter a positive integer as your bid!</strong>', // 3rd check: is bid valid
         background: "white",
         width: "35vmax",
         confirmButtonText: 'OK',
         buttonsStyling: false,
-
-      })
+      });
       return false;
-  }
-
-
-  let bidvalue = prompt('How much would you like to bid for this piece(in SGD)?');
-
-  if (!Number.isInteger(+bidvalue) || +bidvalue <= 0) {
-    MySwal.fire({
-      title: '<strong>Please enter a positive integer as your bid!</strong>', // 3rd check: is bid valid
-      background: "white",
-      width: "35vmax",
-      confirmButtonText: 'OK',
-      buttonsStyling: false,
-    });
-    return false;
-  } 
+    } 
+    
+    bidvalue = parseInt(bidvalue);
+    var name = CheckCookie("name");
+    await axios.put('https://umang-react-usz25.ondigitalocean.app/allbids/placebid',{paintingnumber,name,bidvalue})
+    .then(async (val)=>{
+            console.log(val,"cookie sent");
+            // console.log(val.data);
+            if(val.data=="time"){
+              MySwal.fire({
+                title: <strong>Sorry, you can't bid within 10 seconds of another bid!</strong>, // 4th check: prevent autobids
+                background: "white",
+                width: "35vmax",
+                confirmButtonText: 'OK',
+                buttonsStyling: false,
+              });
+              return false;
   
-  bidvalue = parseInt(bidvalue);
-  var name = CheckCookie("name");
-  await axios.put('https://umang-react-usz25.ondigitalocean.app/allbids/placebid',{paintingnumber,name,bidvalue})
-  .then(async (val)=>{
-          console.log(val,"cookie sent");
-          // console.log(val.data);
-          if(val.data=="time"){
-            MySwal.fire({
-              title: <strong>Sorry, you can't bid within 10 seconds of another bid!</strong>, // 4th check: prevent autobids
-              background: "white",
-              width: "35vmax",
-              confirmButtonText: 'OK',
-              buttonsStyling: false,
-            });
-            
-          }
-          if(val.data=="value"){
-            MySwal.fire({
-              title: <strong>Sorry, this bid is not greater than the current value!</strong>, //5th check: is bid greater than current highest  bid
-              background: "white",
-              width: "35vmax",
-              confirmButtonText: 'OK',
-              buttonsStyling: false,
-            });
-            
-          }
-          const prevemail = val.data[0].useremail
-          const prevname = val.data[0].username
-          if(prevemail!=CheckCookie("email")){
-            console.log("sending email")
-          var params ={                 // storing info of previous bidder to send outbid email
-            name: prevname,
-            email: prevemail,
-            painting_title: paintingsTitles[paintingnumber],
-          };
-          if(prevemail!="minbid.com"){
-            emailjs.send("service_adnzlti","template_fh02zsq",params,"e7AJH9FfOWzIXQQJm");
-          }
-      }
-      try {
-        const response = await axios.get('https://umang-react-usz25.ondigitalocean.app/paintinginfo');
-        if (response.data && response.data.highestBids) {
-          setHighestBidsValues(response.data.highestBids);
+            }
+            if(val.data=="value"){
+              MySwal.fire({
+                title: <strong>Sorry, this bid is not greater than the current value!</strong>, //5th check: is bid greater than current highest  bid
+                background: "white",
+                width: "35vmax",
+                confirmButtonText: 'OK',
+                buttonsStyling: false,
+              });
+              return false;
+            }
+            const prevemail = val.data[0].useremail
+            const prevname = val.data[0].username
+            if(prevemail!=CheckCookie("email")){
+              console.log("sending email")
+            var params ={                 // storing info of previous bidder to send outbid email
+              name: prevname,
+              email: prevemail,
+              painting_title: paintingsTitles[paintingnumber],
+            };
+            if(prevemail!="minbid.com"){
+              emailjs.send("service_adnzlti","template_fh02zsq",params,"e7AJH9FfOWzIXQQJm");
+            }
         }
-      } catch (error) {
-        console.error("Error fetching updated highest bids:", error);
-      }
+        try {
+          const response = await axios.get('https://umang-react-usz25.ondigitalocean.app/paintinginfo');
+          if (response.data && response.data.highestBids) {
+            setHighestBidsValues(response.data.highestBids);
+          }
+        } catch (error) {
+          console.error("Error fetching updated highest bids:", error);
+        }
+     
+    });
    
-  });
- 
-}
+  }
 
 function alert(paintingnumber){ // alert for each painting
 
