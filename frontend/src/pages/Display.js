@@ -24,7 +24,7 @@ async function bid(art_number){
   if(isBiddingEnded === true){
     //alert the user that they cant log in because bidding is done
     MySwal.fire({
-      title: <strong>Sorry, You can't bid on this painting, the Bidding has ended!</strong>, // first check: is biddingstate true or false
+      title: <strong>Sorry, You bid on this painting, the Bidding has ended!</strong>, // first check: is biddingstate true or false
       background: 'white',
       width: '35vmax',
       confirmButtonText: 'OK',
@@ -128,7 +128,7 @@ function alert(paintingnumber){ // alert for each painting
         <br></br>
         <p1><span>THEME:</span> {themes[paintingnumber]} </p1>
         <br></br>
-        <p1><span>SIZE:</span> Approx. A3</p1>
+        <p1><span>SIZE:</span> {dimensions[paintingnumber]}</p1>
         </div>,
     background:"black",
     width: "50vmax",
@@ -145,6 +145,7 @@ function alert(paintingnumber){ // alert for each painting
   let [numberOfPaintings, setNumberOfPaintings] = useState();
   let [themes, setThemes] = useState({});
   const [images, setImages] = useState({});
+  const [dimensions, setDimensions] = useState({}); 
   const [isBiddingEnded, setIsBiddingEnded] = useState(false);
 
   useEffect(() => {
@@ -171,6 +172,8 @@ useEffect(() => {
       const imageurls = response.data.images;
       const mediums = response.data.mediums;
       const themes = response.data.themes
+      const dimensions = response.data.dimensions
+
       
       // Update the state variables
       setPaintingTitles(titles);
@@ -180,6 +183,7 @@ useEffect(() => {
       setPaintingMediums(mediums);
       setImages(imageurls);
       setThemes(themes)
+      setDimensions(dimensions)
 
 
       // Set the number of paintings
