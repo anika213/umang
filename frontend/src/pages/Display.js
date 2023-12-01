@@ -24,7 +24,7 @@ async function bid(art_number){
   if(isBiddingEnded === true){
     //alert the user that they cant log in because bidding is done
     MySwal.fire({
-      title: <strong>Sorry, You bid on this painting, the Bidding has ended!</strong>, // first check: is biddingstate true or false
+      title: <strong>Sorry, You can't bid on this painting, the Bidding has ended!</strong>, // first check: is biddingstate true or false
       background: 'white',
       width: '35vmax',
       confirmButtonText: 'OK',
