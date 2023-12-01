@@ -181,7 +181,7 @@ resetAuction = async () => {
   
     var highestbiddersemails = {};
     for (const paintingNumber in highestbiddersnames) {
-      const bidderName = highestbiddersnames[paintingNumber].lowercase();
+      const bidderName = highestbiddersnames[paintingNumber];
       var bidderemail = await users.find({"username": bidderName}).toArray();
   
       // Check if bidderemail is found and has at least one entry
