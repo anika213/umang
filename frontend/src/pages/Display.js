@@ -162,7 +162,7 @@ function alert(paintingnumber){ // alert for each painting
 useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/paintinginfo');
+      const response = await axios.get('https://umang-react-usz25.ondigitalocean.app/paintinginfo');
       // Accessing the properties in the response
       console.log(response)
       const titles = response.data.titles;
