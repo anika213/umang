@@ -11,6 +11,9 @@ h1{
     color:black;
     font-family:"Cinzel";
 }
+.tiptext{
+    color:black;
+}
 #suggestions {
     background-color: white;
     border-radius: 15px;
