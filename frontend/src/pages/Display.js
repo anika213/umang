@@ -225,6 +225,7 @@ useEffect(() => {
           <div>
             <Navbar_landing></Navbar_landing>
             <h1>Art Gallery</h1>
+            <p1> TIP: Click on a painting to view more info about its size, description, and medium </p1>
             <div style={{ position: 'relative' }}>
               <FontAwesomeIcon icon={faSearch} style={{ position: 'relative',left: '35px', zIndex: '1', color: 'gray' }} />
               <input
