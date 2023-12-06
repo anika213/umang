@@ -111,6 +111,7 @@ function Landing()
 
                <br></br>
         <h>UMANG</h>
+        <p>Sorry, bidding has ended for this year!<\p>
         <h3 class ="cookie">Welcome back {user_cookie}</h3>
         <div className='chartstyles'>
       <Chart className="chartthing" height={'45vh'} width={'50vw'} chartId={'63b629c0-e76a-4b83-8a50-1144282f8f33'} chartURL={'https://charts.mongodb.com/charts-project-0-mqzzv'} />
@@ -163,6 +164,7 @@ function Landing()
         <br></br>
         <h>UMANG</h>
         <h3>Fall 2023</h3>
+        <p>Sorry, bidding has ended for this year!<\p>
         
         
        <button class="register" onClick={routeChange}> Get Started </button> 
