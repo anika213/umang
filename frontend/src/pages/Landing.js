@@ -163,7 +163,7 @@ function Landing()
         <br></br>
         <h>UMANG</h>
         <h3>Fall 2023</h3>
-        <p>Sorry, bidding has ended for this year!<\p>
+        // <p>Sorry, bidding has ended for this year!<\p>
         
         
        <button class="register" onClick={routeChange}> Get Started </button> 
