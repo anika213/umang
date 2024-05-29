@@ -56,6 +56,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
+    "prebuild": "chmod +x ./fix_crypto_dependency.sh; ./fix_crypto_dependency.sh",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
