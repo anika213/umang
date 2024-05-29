@@ -191,15 +191,8 @@ function Admin() {
       <p className='mini-title'>The Charts below are for you to visualise the current progress of the bidding</p>
       <br></br>
       <br></br>
-        // <div class='parent'>
-        //   <Chart CSStype = "chart1" height={'400px'} width={'600px'} chartId={'63b57798-b99d-4d32-8b81-82b42cc44254'} chartURL={'https://charts.mongodb.com/charts-project-0-mqzzv'} />
-        //   <Chart CSStype = "chart2" height={'400px'} width={'600px'} chartId={'63b629c0-e76a-4b83-8a50-1144282f8f33'} chartURL={'https://charts.mongodb.com/charts-project-0-mqzzv'} />
-        // </div>
+       
 <br></br>
-        // <div class='parent2'>
-        //   <Chart CSStype = "chart1" height={'400px'} width={'600px'} chartId={'63b7dc7e-2404-4591-82d5-c77500033064'} chartURL={'https://charts.mongodb.com/charts-project-0-mqzzv'} />
-        //   <Chart CSStype = "chart2" height={'400px'} width={'600px'} chartId={'63b626f1-b222-4caf-86bf-6652df41849f'} chartURL={'https://charts.mongodb.com/charts-project-0-mqzzv'} />
-        // </div>
         <br></br>
         <br></br>
 
