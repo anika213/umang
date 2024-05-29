@@ -5,7 +5,7 @@ webpack_config="./node_modules/react-scripts/config/webpack.config.js"
 webpack_config_backup="./node_modules/react-scripts/config/webpack.config.js.bckp"
 
 # Specify the line number where you want to insert the new line
-line_number=304
+line_number=306
 
 # Define the line to add
 line_to_add='fallback: { "crypto": require.resolve("crypto-browserify") }, // Patch realm-web crypto dependency'
