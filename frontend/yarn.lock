@@ -1606,16 +1606,6 @@
     "debug" "^2.2.0"
     "es6-promise" "^4.2.8"
 
-"@mongodb-js/charts-embed-dom@^2.3.0":
-  "integrity" "sha512-RWqLptIxuCsfO9RpcWxXDwJLSNxkAFr49mvPnSEIO1e5LCk5qn1B5HesC7mzaYEl5Wvug4C55BKO1g3/srmh0Q=="
-  "resolved" "https://registry.npmjs.org/@mongodb-js/charts-embed-dom/-/charts-embed-dom-2.3.0.tgz"
-  "version" "2.3.0"
-  dependencies:
-    "@babel/runtime" "^7.12.13"
-    "@looker/chatty" "^2.2.0"
-    "bson" "4.5.2"
-    "jsonwebtoken" "^8.5.1"
-    "lodash" "^4.17.19"
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   "integrity" "sha512-54/JRvkLIzzDWshCWfuhadfrfZVPiElY8Fcgmg1HroEly/EDSszzhBAsarCux+D/kOslTRquNzuyGSmUSTTHGg=="
