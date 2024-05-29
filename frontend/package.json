@@ -9,7 +9,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@google-cloud/local-auth": "^2.1.1",
-    "@mongodb-js/charts-embed-dom": "^2.3.0",
+    "@mongodb-js/charts-embed-dom": "^3.2.1",
     "@sweetalert2/theme-dark": "^5.0.14",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
