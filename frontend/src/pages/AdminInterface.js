@@ -1,7 +1,7 @@
 
 import classes from './AdminInterface.css'
 import Navbar_landing from '../component/Navbar_landing'
-// import Chart from '../component/BiddersChart'
+import Chart from '../component/BiddersChart'
 import { saveAs } from 'file-saver';
 import axios from 'axios';
 import {admin} from './Login.js'
@@ -15,7 +15,7 @@ const MySwal = withReactContent(Swal);
 
 async function viewPaintingHistory(paintingNumber) {
   try {
-    const response = await axios.put('https://umang-react-usz25.ondigitalocean.app/admin/viewhistory', { "paintingnumber": paintingNumber });
+    const response = await axios.put('http://localhost:8000/admin/viewhistory', { "paintingnumber": paintingNumber });
     const bidHistory = response.data; // Assuming the response contains the bid history data
 
     const bidList = bidHistory.map((bid, index) => `${index + 1}. Bidder: ${bid.bidder}, Value: ${bid.bidvalue}`);
@@ -47,7 +47,7 @@ async function endBidding(){
   }).then(async (result) => {
     if (result.isConfirmed) {
       try {
-        const response = await axios.get('https://umang-react-usz25.ondigitalocean.app/admin/endbidding');
+        const response = await axios.get('http://localhost:8000/admin/endbidding');
         if (response.status === 200) {
           MySwal.fire({
             title: 'Bidding State Changed!',
@@ -82,7 +82,7 @@ function Admin() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://umang-react-usz25.ondigitalocean.app/paintinginfo');
+        const response = await axios.get('http://localhost:8000/paintinginfo');
         // Accessing the properties in the response
         const titles = response.data.titles;
 
@@ -119,7 +119,7 @@ function Admin() {
   }
     function handleDownloadClick() {
       console.log("in handle download click");
-      axios.get("https://umang-react-usz25.ondigitalocean.app/allbids/biddinginfo")
+      axios.get("http://localhost:8000/allbids/biddinginfo")
         .then((response) => {
           const { data } = response;
           const [highestBidsData, highestBiddersNames, highestBiddersEmails, notes] = data;
@@ -191,8 +191,15 @@ function Admin() {
       <p className='mini-title'>The Charts below are for you to visualise the current progress of the bidding</p>
       <br></br>
       <br></br>
-       
+        <div class='parent'>
+          <Chart CSStype = "chart1" height={'400px'} width={'600px'} chartId={'63b57798-b99d-4d32-8b81-82b42cc44254'} chartURL={'https://charts.mongodb.com/charts-project-0-mqzzv'} />
+          <Chart CSStype = "chart2" height={'400px'} width={'600px'} chartId={'63b629c0-e76a-4b83-8a50-1144282f8f33'} chartURL={'https://charts.mongodb.com/charts-project-0-mqzzv'} />
+        </div>
 <br></br>
+        <div class='parent2'>
+          <Chart CSStype = "chart1" height={'400px'} width={'600px'} chartId={'63b7dc7e-2404-4591-82d5-c77500033064'} chartURL={'https://charts.mongodb.com/charts-project-0-mqzzv'} />
+          <Chart CSStype = "chart2" height={'400px'} width={'600px'} chartId={'63b626f1-b222-4caf-86bf-6652df41849f'} chartURL={'https://charts.mongodb.com/charts-project-0-mqzzv'} />
+        </div>
         <br></br>
         <br></br>
 
