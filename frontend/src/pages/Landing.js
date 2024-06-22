@@ -16,7 +16,7 @@ let user_cookie;
 
 const fetchUsers = async () => {
   try {
-    const response = await axios.get('https://umang-react-usz25.ondigitalocean.app/users');
+    const response = await axios.get('https://umang-818y.onrender.com/users');
     // console.log(response.data[0].username);
     return Promise.resolve(response.data[0].username);
   } catch (error) {
