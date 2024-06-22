@@ -23,7 +23,7 @@ function setCookie(cname, cvalue, exdays) {
 }
 
  async function checkIfBiddingDone() {
-  const response = await axios.get('https://umang-react-usz25.ondigitalocean.app/checkifbiddingdone');
+  const response = await axios.get('https://umang-818y.onrender.com/checkifbiddingdone');
   // console.log(response.data);
   if (response.data.status === true) {
     return true;
@@ -156,7 +156,7 @@ useEffect(() => {
     setCookie('email', email, 365);
     setCookie('username', name, 365);
     // console.log('in checkrepeat');
-    await axios.get('https://umang-react-usz25.ondigitalocean.app/users').then(function (response) {
+    await axios.get('https://umang-818y.onrender.com/users').then(function (response) {
       // console.log(response.data);
       userdata = response.data;
     });
@@ -262,7 +262,7 @@ useEffect(() => {
 
       if (await CheckRepeat() === false) {
         await axios
-          .put('https://umang-react-usz25.ondigitalocean.app/users/logininfo', { name, email, bids })
+          .put('https://umang-818y.onrender.com/users/logininfo', { name, email, bids })
           .then((data) => {
             console.log(data, 'userRegistered');
             navigate('/display', { replace: true });
