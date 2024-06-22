@@ -35,7 +35,7 @@ const MySwal = withReactContent(Swal);
         const password = result.value;
         console.log(password)
         try {
-          const response = await axios.get(`https://umang-react-usz25.ondigitalocean.app/admin/resetauction?password=${password}`);
+          const response = await axios.get(`https://umang-818y.onrender.com/admin/resetauction?password=${password}`);
           if (response.status === 200) {
             MySwal.fire({
               title: 'Reset!',
@@ -72,7 +72,7 @@ const MySwal = withReactContent(Swal);
   async function saveInfo(title,artist,description,medium,minBid,styling,theme,dimensions){
     console.log(title,artist,description,medium,minBid,styling,theme,dimensions);
     console.log("PAINTING"+paintingnum)
-    await axios.put('https://umang-react-usz25.ondigitalocean.app/admin/addpainting', {title,artist,description,medium,minBid,styling,theme,dimensions,image:uploadedImage,paintingnum })
+    await axios.put('https://umang-818y.onrender.com/admin/addpainting', {title,artist,description,medium,minBid,styling,theme,dimensions,image:uploadedImage,paintingnum })
     .then((data) => {
       console.log(data, 'userRegistered');
       setInitialModalData({}); // Reset the initial modal data
@@ -99,7 +99,7 @@ const MySwal = withReactContent(Swal);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://umang-react-usz25.ondigitalocean.app/paintinginfo');
+        const response = await axios.get('https://umang-818y.onrender.com/paintinginfo');
         // Accessing the properties in the response
         const titles = response.data.titles;
 
@@ -163,10 +163,10 @@ async function handleRowClick(paintingNumber, paintingTitle) {
       if (result.isConfirmed) {
         try {
           setPaintingnum(paintingNumber)
-          const val = await axios.put('https://umang-react-usz25.ondigitalocean.app/admin/loadinfo', {"paintingnumber": paintingNumber});
+          const val = await axios.put('https://umang-818y.onrender.com/admin/loadinfo', {"paintingnumber": paintingNumber});
           console.log(val.data.info)
           setInitialModalData(val.data.info); // Update the initial modal data
-          setUploadedImage(`https://umang-react-usz25.ondigitalocean.app/image?paintingnumber=${paintingNumber}`);
+          setUploadedImage(`https://umang-818y.onrender.com/image?paintingnumber=${paintingNumber}`);
           // Update the uploaded image
           setShowModal(true); // Show the modal
           console.log(`Editing ${paintingTitle}`);
@@ -175,7 +175,7 @@ async function handleRowClick(paintingNumber, paintingTitle) {
         }
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         try {
-          const val = await axios.put('https://umang-react-usz25.ondigitalocean.app/admin/deletepainting', {"paintingnumber": paintingNumber});
+          const val = await axios.put('https://umang-818y.onrender.com/admin/deletepainting', {"paintingnumber": paintingNumber});
           if (val.status === 200) {
             MySwal.fire({
               title: 'Deleted!',
