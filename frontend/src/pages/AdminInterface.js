@@ -15,7 +15,7 @@ const MySwal = withReactContent(Swal);
 
 async function viewPaintingHistory(paintingNumber) {
   try {
-    const response = await axios.put('http://localhost:8000/admin/viewhistory', { "paintingnumber": paintingNumber });
+    const response = await axios.put('https://squid-app-2-9gzet.ondigitalocean.app/admin/viewhistory', { "paintingnumber": paintingNumber });
     const bidHistory = response.data; // Assuming the response contains the bid history data
 
     const bidList = bidHistory.map((bid, index) => `${index + 1}. Bidder: ${bid.bidder}, Value: ${bid.bidvalue}`);
@@ -47,7 +47,7 @@ async function endBidding(){
   }).then(async (result) => {
     if (result.isConfirmed) {
       try {
-        const response = await axios.get('http://localhost:8000/admin/endbidding');
+        const response = await axios.get('https://squid-app-2-9gzet.ondigitalocean.app/admin/endbidding');
         if (response.status === 200) {
           MySwal.fire({
             title: 'Bidding State Changed!',
@@ -82,7 +82,7 @@ function Admin() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/paintinginfo');
+        const response = await axios.get('https://squid-app-2-9gzet.ondigitalocean.app/paintinginfo');
         // Accessing the properties in the response
         const titles = response.data.titles;
 
@@ -119,7 +119,7 @@ function Admin() {
   }
     function handleDownloadClick() {
       console.log("in handle download click");
-      axios.get("http://localhost:8000/allbids/biddinginfo")
+      axios.get("https://squid-app-2-9gzet.ondigitalocean.app/allbids/biddinginfo")
         .then((response) => {
           const { data } = response;
           const [highestBidsData, highestBiddersNames, highestBiddersEmails, notes] = data;

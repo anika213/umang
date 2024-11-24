@@ -86,7 +86,7 @@ getimages = async (paintingnumber) => {
     // Check if painting exists and has an image field
     if (painting && painting.image) {
       // Return the URL to access the image
-      return `http://localhost:8000/image/${painting.image}`;
+      return `https://squid-app-2-9gzet.ondigitalocean.app/image/${painting.image}`;
     } else {
       console.log(`Painting with number ${paintingnumber} not found or doesn't have an image.`);
       return null;
@@ -350,14 +350,14 @@ app.put("/allbids/placebid", async (req, res) => {
 
     if (bidvalue > data[0].highestBid.bidvalue) {
         userLastBidTime[name] = currentTime;
-        axios.put('http://localhost:8000/allbids/bidplaced',  
+        axios.put('https://squid-app-2-9gzet.ondigitalocean.app/allbids/bidplaced',  
         { name, bidvalue, paintingnumber,highestBidderEmail })  
         .then((data) => {
             console.log("bidplaced"); 
             res.status(200).send(highestBidderEmail);
         })
 
-        axios.put('http://localhost:8000/allbids/mybids',  
+        axios.put('https://squid-app-2-9gzet.ondigitalocean.app/allbids/mybids',  
         { name, bidvalue, paintingnumber })
         .then((data) => {
             console.log("mybids")
@@ -633,7 +633,7 @@ app.get('/admin/endbidding', async (req, res) => {
       paintingsDimensions[paintingName] = paintingInfo.dimensions || 'N/A';
       paintingsThemes[paintingName] = paintingInfo.theme || 'N/A';
       paintingsHighestBids[paintingName] = paintingInfo.highestBid ? paintingInfo.highestBid.bidvalue : 'N/A';
-      imageUrls[paintingName] = `http://localhost:8000/image?paintingnumber=${paintingName}`;
+      imageUrls[paintingName] = `https://squid-app-2-9gzet.ondigitalocean.app/image?paintingnumber=${paintingName}`;
     });
     console.log(imageUrls)  
     res.status(200).json({

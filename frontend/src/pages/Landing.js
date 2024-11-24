@@ -16,7 +16,7 @@ let user_cookie;
 
 const fetchUsers = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/users');
+    const response = await axios.get('https://squid-app-2-9gzet.ondigitalocean.app/users');
     // console.log(response.data[0].username);
     return Promise.resolve(response.data[0].username);
   } catch (error) {

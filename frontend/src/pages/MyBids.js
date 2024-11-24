@@ -12,7 +12,7 @@ import axios from 'axios'
   
     useEffect(() => {
       axios
-        .get(`http://localhost:8000/mybids`, {
+        .get(`https://squid-app-2-9gzet.ondigitalocean.app/mybids`, {
           params: {
             name: CheckCookie('name'),
           },
@@ -35,7 +35,7 @@ import axios from 'axios'
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await axios.get('http://localhost:8000/paintinginfo');
+          const response = await axios.get('https://squid-app-2-9gzet.ondigitalocean.app/paintinginfo');
           // Accessing the properties in the response
           const titles = response.data.titles;
           

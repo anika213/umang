@@ -54,7 +54,7 @@ import h1 from './Display';
       //     setHighestBidsValues(response.data);
       //   });
     
-      axios.get('http://localhost:8000/allbids/getallhighestbidders')
+      axios.get('https://squid-app-2-9gzet.ondigitalocean.app/allbids/getallhighestbidders')
         .then((response) => {
           setHighestBiddersValues(response.data);
   
@@ -68,7 +68,7 @@ import h1 from './Display';
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await axios.get('http://localhost:8000/paintinginfo');
+          const response = await axios.get('https://squid-app-2-9gzet.ondigitalocean.app/paintinginfo');
           // Accessing the properties in the response
           const titles = response.data.titles;
           const sizes = response.data.sizes;

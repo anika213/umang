@@ -23,7 +23,7 @@ function setCookie(cname, cvalue, exdays) {
 }
 
  async function checkIfBiddingDone() {
-  const response = await axios.get('http://localhost:8000/checkifbiddingdone');
+  const response = await axios.get('https://squid-app-2-9gzet.ondigitalocean.app/checkifbiddingdone');
   // console.log(response.data);
   if (response.data.status === true) {
     return true;
@@ -94,7 +94,7 @@ useEffect(() => {
       userpass: password,
     };
     // console.log('real' + password);
-     emailjs.send("service_adnzlti","template_i1if82w",params,"e7AJH9FfOWzIXQQJm");
+     emailjs.send("service_1sdy7io","template_i1if82w",params,"e7AJH9FfOWzIXQQJm");
   }
     // console.log('actual password:' + password);
   async function ValidateEmail(emailcheck, name) {
@@ -156,7 +156,7 @@ useEffect(() => {
     setCookie('email', email, 365);
     setCookie('username', name, 365);
     // console.log('in checkrepeat');
-    await axios.get('http://localhost:8000/users').then(function (response) {
+    await axios.get('https://squid-app-2-9gzet.ondigitalocean.app/users').then(function (response) {
       // console.log(response.data);
       userdata = response.data;
     });
@@ -262,7 +262,7 @@ useEffect(() => {
 
       if (await CheckRepeat() === false) {
         await axios
-          .put('http://localhost:8000/users/logininfo', { name, email, bids })
+          .put('https://squid-app-2-9gzet.ondigitalocean.app/users/logininfo', { name, email, bids })
           .then((data) => {
             console.log(data, 'userRegistered');
             navigate('/display', { replace: true });
