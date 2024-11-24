@@ -96,7 +96,7 @@ export default function ImageDisplay(props) {
       console.log(paintingnumber);
       
       try {
-        const val = await axios.put('https://umang-818y.onrender.com/paintings/writenote', { note, paintingnumber });
+        const val = await axios.put('http://localhost:8000/paintings/writenote', { note, paintingnumber });
         
         if (val.status === 200) {
           MySwal.fire({
