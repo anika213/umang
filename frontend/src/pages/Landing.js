@@ -161,8 +161,8 @@ function Landing()
         <br></br>
         <br></br>
         <br></br>
-        <h>UMANG</h>
-        <h3>Fall 2023</h3>
+        <h>UMANG ART AUCTION</h>
+        <h3>2024</h3>
         
        <button class="register" onClick={routeChange}> Get Started </button> 
         <br></br>
