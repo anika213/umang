@@ -66,7 +66,7 @@ function About()
 
       <h1>Contact Information</h1>
       <p>GC Email: easthsi-india@gapps.uwcsea.edu.sg</p>
-      <p>Chair Email 1: shank113525@gapps.uwcsea.edu.sg</p>
+      <p>Chair Email 1: vikra141445@gapps.uwcsea.edu.sg</p>
       <p>Chair Email 2: sivak14794@gapps.uwcsea.edu.sg</p>
       <p>Service Office Contact: zarinahuwc@gapps.uwcsea.edu.sg</p>
     </div>
