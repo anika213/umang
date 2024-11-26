@@ -57,7 +57,7 @@ function About()
         <p class="abouttext"> The Umang Auction aims to raise funds for the i-India NGO, while 
      highlighting the exceptional talent within both the parent and student art community at the school. 
 High-quality pieces of artwork are open for bidding to teachers, parents and other UWC community members. 
-By connecting the pieces of artwork to the three themes (Change, Hope and Fantasy) we aim to unite diverse mediums and forms of art to celebrate the artistic achievements of the artists and raise funds for our NGO.
+By connecting the pieces of artwork to the three themes (Spirit, Change, and Hope) we aim to unite diverse mediums and forms of art to celebrate the artistic achievements of the artists and raise funds for our NGO. We appreciate the help of the UWCSEA Community.
 
             </p>
        <img src={About_5} class="about5"></img>
@@ -67,7 +67,7 @@ By connecting the pieces of artwork to the three themes (Change, Hope and Fantas
       <h1>Contact Information</h1>
       <p>GC Email: easthsi-india@gapps.uwcsea.edu.sg</p>
       <p>Chair Email 1: vikra141445@gapps.uwcsea.edu.sg</p>
-      <p>Chair Email 2: sivak14794@gapps.uwcsea.edu.sg</p>
+      <p>Chair Email 2: choud78620@gapps.uwcsea.edu.sg</p>
       <p>Service Office Contact: zarinahuwc@gapps.uwcsea.edu.sg</p>
     </div>
     
