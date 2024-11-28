@@ -113,7 +113,7 @@ function Landing()
         <h>UMANG</h>
         <h3 class ="cookie">Welcome back {user_cookie}</h3>
         <div className='chartstyles'>
-      <Chart className="chartthing" height={'45vh'} width={'50vw'} chartId={'63b629c0-e76a-4b83-8a50-1144282f8f33'} chartURL={'https://charts.mongodb.com/charts-project-0-mqzzv'} />
+      <Chart className="chartthing" height={'45vh'} width={'50vw'} chartId={'65d8c3dc-212a-4f61-b96d-d5f351079cf9'} chartURL={'https://charts.mongodb.com/charts-project-0-iwxrjcz'} />
     </div>
         
 
